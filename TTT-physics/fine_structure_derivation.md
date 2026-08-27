@@ -203,6 +203,10 @@ Coxeter 群・TTT生成過程・6次元不変量から精密に決定する。
 
 ---
 
+[TTT / GTM_v2.1（GitHub）](https://github.com/kiki054-n/TTT/tree/main/GTM_v2.1)
+
+---
+
 ## 6. 今後の展開
 
 - 具体的な \(a_n\) を TTT-physics から計算する  
