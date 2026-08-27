@@ -49,6 +49,17 @@ Bipolar→Line→Triangle→Tetrahedron→Nine-Point Octa Structure
 
 TTTの安定性は以下の条件で定義される：
 
+∑
+𝑖
+=
+1
+𝑛
+𝑣
+⃗
+𝑖
+=
+0
+
 ∑i=1nv⃗i=0  
 これは「全方向が均衡する」ことを意味し、
 
