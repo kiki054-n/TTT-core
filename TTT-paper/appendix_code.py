@@ -4,6 +4,95 @@ import matplotlib.pyplot as plt
 # ---- 省略せず全文をここに貼る（前回提示したコード） ----
 
 import numpy as np
+
+# ---- 1. 遷移演算子 T_total（あなたの計算結果を使用） ----
+T_total = np.array([
+    [2.558327, 0, 0, 0, 0, 0],
+    [0, 1.666667, 0, 0, 0, 0],
+    [0, 0, 1.666667, 0, 0, 0],
+    [0, 0, 0, 4.778893, 0, 0],
+    [0, 0, 0, 0, 1.959338, 0],
+    [0, 0, 0, 0, 0, 2.558327]
+])
+
+# ---- 2. 固有値の絶対値 ----
+eigs = np.abs(np.linalg.eigvals(T_total))
+
+# ---- 3. 無限遷移の極限を数値的に評価 ----
+def alpha_inverse(N):
+    # T_total^N のトレース
+    trace_N = np.sum(eigs**N)
+    
+    S_topo  = 12*np.pi**2 * 3
+    S_local = 4*np.pi*(27/23)
+    S_RG    = -(1/(2*np.pi))*np.log(trace_N)
+    
+    return S_topo + S_local + S_RG
+
+# ---- 4. 収束の様子を表示 ----
+for N in [10, 20, 50, 100, 200, 500, 1000]:
+    print(N, alpha_inverse(N))
+for N in [10, 20, 50, 100, 200, 500, 1000]:
+    print(N, alpha_inverse(N))
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+eigs = np.array([2.558327, 1.666667, 1.666667, 4.778893, 1.959338, 2.558327])
+
+def alpha_inverse(N):
+    trace_N = np.sum(eigs**N)
+    S_topo  = 12*np.pi**2 * 3
+    S_local = 4*np.pi*(27/23)
+    S_RG    = -(1/(2*np.pi))*np.log(trace_N)
+    return S_topo + S_local + S_RG
+
+Ns = np.array([10, 20, 50, 100, 200, 500, 1000])
+alphas = np.array([alpha_inverse(N) for N in Ns])
+
+plt.figure(figsize=(6,4))
+plt.plot(Ns, alphas, 'o-', label=r'$\alpha^{-1}(N)$ (TTT model)')
+plt.axhline(137.035999, color='r', linestyle='--',
+            label=r'Experimental $\alpha^{-1}$')
+plt.xlabel('Transition count N')
+plt.ylabel(r'$\alpha^{-1}$')
+plt.title('Convergence of fine-structure constant in TTT model')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+eigs = np.array([2.558327, 1.666667, 1.666667, 4.778893, 1.959338, 2.558327])
+
+def alpha_inverse(N):
+    trace_N = np.sum(eigs**N)
+    S_topo  = 12*np.pi**2 * 3
+    S_local = 4*np.pi*(27/23)
+    S_RG    = -(1/(2*np.pi))*np.log(trace_N)
+    return S_topo + S_local + S_RG
+
+Ns = np.array([10, 20, 50, 100, 200, 500, 1000])
+alphas = np.array([alpha_inverse(N) for N in Ns])
+
+plt.figure(figsize=(6,4))
+plt.plot(Ns, alphas, 'o-', label=r'$\alpha^{-1}(N)$ (TTT model)')
+plt.axhline(137.035999, color='r', linestyle='--',
+            label=r'Experimental $\alpha^{-1}$')
+plt.xlabel('Transition count N')
+plt.ylabel(r'$\alpha^{-1}$')
+plt.title('Convergence of fine-structure constant in TTT model')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig('alpha_convergence.png', dpi=300)
+plt.show()
+
+
+
+import numpy as np
 import matplotlib.pyplot as plt
 
 # ---------------------------------------------------------
