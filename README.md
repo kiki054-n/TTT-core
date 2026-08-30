@@ -95,8 +95,3 @@ AI設計への応用
 
 ## TTT理論の他のリポジトリ
 
-- [TTT-core](https://github.com/kiki054-n/TTT-core) — 理論全体の統合ハブ
-- [TTT-mathematics](https://github.com/kiki054-n/TTT-mathematics) — 純粋数学的基盤
-- [TTT-physics](https://github.com/kiki054-n/TTT-physics) — 物理定数導出・実験予言
-- [TTT-society](https://github.com/kiki054-n/TTT-society) — 社会構造への応用
-- [TTT-consciousness](https://github.com/kiki054-n/TTT-consciousness) — 意識・観測者・AI
