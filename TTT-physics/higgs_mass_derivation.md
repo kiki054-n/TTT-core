@@ -140,3 +140,44 @@ TTT理論の離散格子構造および幾何学的励起スペクトルから�
 2. **FCC-hh (100 TeV 衝突型加速器)**:
    * $2.7\text{ TeV}$ および $3.37\text{ TeV}$ 領域の生成断面積が LHC と比較して $\sim 100$ 倍に増大するため、$H_2^*, H_3^*$ を明確なレゾナンスピークとして発見・排除が可能。
    * 
+---
+---
+
+## 7. 高エネルギー励起スケールにおける微細構造定数のランニング $\alpha(E)$ と補正項
+
+TTT理論における高次励起状態（$E_1 = 2197\text{ GeV}, E_2 = 2744\text{ GeV}, E_3 = 3375\text{ GeV}$）の出現は、低エネルギー領域における微細構造定数 $1/\alpha \approx 137.036$ の値のみならず、高エネルギー領域における電磁結合定数のランニング $\alpha(E)$ のベータ関数に対しても閾値効果（Threshold effect）として直接的な補正を与える。
+
+### 7.1 1回路（1-loop）RG方程式と閾値補正の構造
+
+標準模型（SM）における結合定数 $\alpha(E)$ のエネルギー依存性は、くりこみ群方程式（RGE）により以下のように記述される。
+
+$$\alpha(E) = \frac{\alpha(m_Z)}{1 - \dfrac{\alpha(m_Z)}{2\pi} b \ln\left(\dfrac{E}{m_Z}\right)}$$
+
+ここで、$m_Z \approx 91.1876\text{ GeV}$、$\alpha(m_Z)^{-1} \approx 127.95$ （LEP精密測定値）である。
+
+TTT理論において、エネルギー $E$ が励起スケール $E_k$ を超えると、真空偏極への新たな自由度の寄与（ヘヴィースカラー/フェルミオン場の結合）により、ベータ関数の係数 $b$ がステップ関数 $\theta(E - E_k)$ に従って不連続に変化する。
+
+$$b = b_{\text{SM}} + \sum_{k=1}^{3} \Delta b_k \cdot \theta(E - E_k)$$
+
+* **$E < E_1 = 2197\text{ GeV}$ (SM領域)**:  
+  $b_{\text{SM}} = -\frac{80}{9}$ （$\alpha^{-1}(E)$ はエネルギーとともに緩やかに減少）
+* **$E \ge E_k$ (TTT補正領域)**:  
+  各閾値 $E_k$ を通過するごとに $\Delta b_k$ が加算される。
+
+### 7.2 逆数 $\alpha^{-1}(E)$ の厳密補正方程式
+
+エネルギー $E$ における微細構造定数の逆数 $\alpha^{-1}(E)$ は、離散閾値補正を含めて以下のように定式化される。
+
+$$\alpha^{-1}(E) \approx 127.95 - \frac{1}{2\pi} \left[ b_{\text{SM}} \ln\left(\frac{E}{m_Z}\right) + \sum_{k=1}^{3} \theta(E - E_k) \Delta b_k \ln\left(\frac{E}{E_k}\right) \right]$$
+
+各励起状態における補正係数 $\Delta b_k$ は、TTT幾何学における透過演算子 $\hat{O}_k = \frac{1}{2^{7k}}$ の次数に連動して量子化される：
+
+$$\Delta b_k = C_{\text{geom}} \cdot \left( \frac{V_{\text{eff}}}{V_4} \right)^{k-1}$$
+
+### 7.3 実験的整合性と観測可能なシグネチャー
+
+1. **低エネルギー（LEP / Tevatron スケール: $E \le 200\text{ GeV}$）における整合性**:
+   アペルキスト＝カラッツォーネの非結合定理（Appelquist-Carazzone Decoupling Theorem）により、TeVスケールの高次励起の寄与は $\mathcal{O}(m_Z^2 / E_k^2)$ で強力に抑圧される。そのため、低エネルギー精密測定値 $\alpha^{-1}(m_Z) = 127.95 \pm 0.02$ と完全に整合する。
+
+2. **LHC / FCC における High-Mass Drell-Yan 過程での検証**:
+   プロトン・プロトン衝突における Drell-Yan 過程（$pp \to \gamma^*/Z \to l^+ l^-$）の高不変質量領域（$m_{ll} > 2\text{ TeV}$）において、$\alpha(E)$ のランニングの不連続な傾きの変化（Kink構造）として検出・検証可能である。
