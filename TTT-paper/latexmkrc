@@ -1,0 +1,4 @@
+$pdf_mode = 1;
+$pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error';
+$bibtex = 'bibtex';
+$clean_ext = 'synctex.gz';
