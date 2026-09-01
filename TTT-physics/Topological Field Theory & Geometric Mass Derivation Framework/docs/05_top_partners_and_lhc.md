@@ -1,0 +1,4 @@
+Theme 5: Top Partner、Weinberg和則、LHC実験限界（docs/05_top_partners_and_lhc.md）
+
+動的ヒッグスポテンシャル（Coleman-Weinberg 効果）:トップクォークおよび Top Partner の 1-Loop ループ効果により電弱対称性が破れる（$V(h) = -\alpha \sin^2(h/f) + \beta \sin^4(h/f)$）。Weinberg 和則（Weinberg Sum Rules: WSR）と有限性:相関関数 $\Pi(Q^2)$ に対する第 1・第 2 WSR（5次元 AdS の伝播関数の指数減衰）により、1-Loop 積分が紫外発散せず完全有限（UV-Finite）に収束。ヒッグス質量 $m_h$ と Top Partner 質量 $M_T$ の関係式:$$m_h \approx \frac{\sqrt{6}}{\pi} m_t \left( \frac{M_T}{f} \right) \sqrt{1 - \xi} \cdot \sqrt{2C}$$表現モデル依存性:$MCHM_5$ ($\mathbf{5}$ 表現): $C \approx 0.5 \implies M_T \approx 1.1 \sim 1.5\text{ TeV}$ （最も現実的）。$MCHM_{14}$ ($\mathbf{14}$ 表現): $C \approx 1.2 \implies M_T \approx 0.7 \sim 0.8\text{ TeV}$ （パートナーが軽くなりすぎ排除傾向）。LHC (ATLAS / CMS) 直接探索実験限界:荷電 $+5/3$ のエキゾチック・パートナー ($X_{5/3} \to tW^+$): $M_{X_{5/3}} > 1.45 \sim 1.60\text{ TeV}$荷電 $+2/3$ のパートナー ($T \to bW, tZ, tH$): $M_T > 1.37 \sim 1.55\text{ TeV}$
+---
