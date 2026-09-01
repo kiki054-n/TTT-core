@@ -1,0 +1,90 @@
+name: "🌬️ 風を読む - 予想と乖離の記録"
+description: "あなたの領域でTTTを使って予想し、外れた記録を共有する"
+title: "[領域名] 〇〇の予想と乖離"
+labels: ["verification", "OOπ"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **外れた記録の方が、当たった記録より理論を育てます。**
+        > TTTの6変数から支配変数を1つ選んで断言し、三列比較で記録してください。
+
+  - type: textarea
+    id: surface
+    attributes:
+      label: "1. 観察した表面 (rR)"
+      description: "今、観測できている事実を客観的に。数字・法文・現象など"
+      placeholder: "例: 最高裁の法令違憲判決は戦後77年で13件 / 山形の24時間雨量が300mmを超えた"
+    validations:
+      required: true
+
+  - type: textarea
+    id: prediction
+    attributes:
+      label: "2. 予想した裏面 (TTT/E式の適用)"
+      description: "6変数の中で支配的な変数を1つ選び、断言してください。間違っても良い"
+      placeholder: |
+        支配変数: zZ≒0 / vV×zZが臨界超え / eEがzZを上書き など
+        予想: この表面を押すと、裏面はこう変形するはずだ...
+        フライトプラン: だから次に起きるのは〇〇だと予想する
+    validations:
+      required: true
+
+  - type: textarea
+    id: data_forecast
+    attributes:
+      label: "3. データ予報 (既存モデル・常識的な予想)"
+      description: "世間一般や既存のモデルではどう予想されていたか"
+      placeholder: "例: 数値予報モデルでは弱い雨予想 / 判例の多数説では合憲"
+    validations:
+      required: false
+
+  - type: textarea
+    id: reality
+    attributes:
+      label: "4. 実際に起きたこと (現実)"
+      description: "現実に観測された事実"
+      placeholder: "例: 記録的な大雨で線状降水帯が発生 / 違憲判決は出ず"
+    validations:
+      required: true
+
+  - type: textarea
+    id: comparison
+    attributes:
+      label: "5. 三列比較"
+      description: "TTT予報 / データ予報 / 現実 を表で"
+      value: |
+        | 観測地点 | TTT予報 | データ予報 | 現実 |
+        |---|---|---|---|
+        | 地点A |  |  |  |
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: discrepancy
+    attributes:
+      label: "6. 乖離の分類"
+      description: "どれに当てはまるか選んでください"
+      options:
+        - label: "量的乖離 (大きさが違う) → 係数が誤っている"
+        - label: "位置的乖離 (場所が違う) → 別の変数が介在"
+        - label: "時間的乖離 (タイミングが違う) → Uu変化率の読み誤り"
+        - label: "質的乖離 (現象の種類が違う) → 式にない変数の存在 = 第7項発見"
+
+  - type: textarea
+    id: discovery
+    attributes:
+      label: "7. 理論への反映 - 次の変数の発見"
+      description: "欠落していた変数は何か？hH:前歴, eE:外部圧力, nN:非線形臨界, cC:連鎖, dD:散逸..."
+      placeholder: "例: hH(前歴)として地震後の地盤脆弱化が欠落していた / eE(外部圧力)として米側の介入が..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: lesson
+    attributes:
+      label: "8. 次回の教訓"
+      description: "次回同じ表面を見た時、どう予想を変えるか"
+    validations:
+      required: false
