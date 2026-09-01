@@ -43,10 +43,11 @@ $$
 
 TTTでは、状態を次の6次元表現で記述する。
 
+
 $$
-\boxed{
+
 P=xX+yY+zZ+Uu+vV+wW
-}
+
 $$
 
 これを3+3構造として、
@@ -60,20 +61,20 @@ $$
 すなわち、
 
 $$
-\boxed{
+
 P_{\mathrm{state}}
 =
 xX+yY+zZ
-}
+
 $$
 
 および
 
 $$
-\boxed{
+
 P_{\mathrm{transition}}
 =
-}
+
 Uu+vV+wW
 $$
 
