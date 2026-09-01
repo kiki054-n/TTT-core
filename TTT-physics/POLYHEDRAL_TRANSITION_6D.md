@@ -60,16 +60,20 @@ $$
 すなわち、
 
 $$
+\boxed{
 P_{\mathrm{state}}
 =
 xX+yY+zZ
+}
 $$
 
 および
 
 $$
+\boxed{
 P_{\mathrm{transition}}
 =
+}
 Uu+vV+wW
 $$
 
