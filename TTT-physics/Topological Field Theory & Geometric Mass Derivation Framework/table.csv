@@ -1,0 +1,34 @@
+﻿テーマ / セクター,幾何学的要素,数式表現 / スケール,物理的役割,代表的数値・階層
+(A) プランク–電弱階層（RS1）,プランク質量,"M_{\\text{Planck}}",真の重力スケール（UV ブレイン）,"\\sim 1.22\\times 10^{19}\\ \\text{GeV}"
+,Warp 距離,"k\\pi R \\approx 39.14",余剰次元の幾何学的長さ,"kR \\approx 12.5"
+,Warp 因子,"e^{-k\\pi R}",エネルギー単位の指数的縮小,"\\sim 2\\times 10^{-17}"
+,有効ヒッグス VEV,"v \\approx 246\\ \\text{GeV}",TeV ブレインで観測される電弱スケール,"\\frac{v}{M_{\\text{Planck}}}\\sim 10^{-17}"
+(B) TTT-physics 質量階層,電子基準,m_e,全粒子質量比の基準,"0.511\\ \\text{MeV}"
+,レプトン幾何,"\\mu: \\frac{3}{2\\alpha} + \\frac{1}{4}\\ln\\frac{1}{\\alpha} + \\mathcal{O}(\\alpha/\\pi)","QED ループ＋真空偏極で m_\\mu/m_e を決定","\\sim 206.77"
+,タウ位相,"Koide 角 \\theta_k = \\frac{2\\pi}{9}","幾何学的位相から m_\\tau を生成","\\sim 3477\\ m_e"
+,クォーク幾何基底,"6\\pi^3,\\ 6\\pi^5,\\ \\alpha^{-2}",軽・重クォークの階層インデックス,"m_s,m_c,m_b,m_t を再現"
+,Top 幾何極限,"m_t/m_e \\sim \\alpha^{-2}/\\sqrt{2}",最重フェルミオンの幾何学的スケール,"\\sim 3.4\\times 10^5"
+(C) 複合ヒッグス（SO(5)/SO(4)）,多様体構造,SO(5)/SO(4),カストディアル対称性＋ヒッグス 4 自由度,最小 coset で pNGB ヒッグス
+,ヒッグス場,h: S^4 上の角度,曲率空間上の回転角としての擬 NGB,"\\theta = h/f"
+,真空期待値,"v = f\\sin(\\langle h\\rangle/f)",曲率空間からの射影としての電弱スケール,"\\xi = v^2/f^2"
+,結合補正,"\\kappa_V = 1 - \\xi",曲率によるヒッグス結合の普遍的減少,"\\xi \\lesssim 0.05 が現状制約"
+(D) ヒッグスポテンシャル生成（MCHM）,樹木レベル,V=0,シフト対称性により平坦ポテンシャル,pNGB の本質
+,1-Loop 生成,"V_{\\text{CW}}",Top & ゲージ Spurion がポテンシャル生成,Coleman–Weinberg 形
+,真空傾き,"\\xi = \\sin^2(\\langle h\\rangle/f) = \\frac{\\alpha}{2\\beta}",Top 寄与で電弱対称性が自発的破れ,"\\xi \\ll 1 が必要"
+,ヒッグス質量,"m_h^2 = \\frac{8\\beta}{f^2}\\xi(1-\\xi)",pNGB ヒッグスの軽さを決定,"m_h \\approx 125\\ \\text{GeV}"
+(E) Weinberg 和則 & Top Partner,相関関数,"\\Pi_1(Q^2) = \\sum_n \\frac{f_n^2 M_n^2}{Q^2+M_n^2}",強結合共鳴塔のスペクトル表現,Top Partner スペクトル
+,1st WSR,"\\sum_n f_n^2 M_n^2 = 0","\\Lambda^2 発散の消去",UV ソフト化
+,2nd WSR,"\\sum_n f_n^2 M_n^4 = 0","\\ln\\Lambda 発散の消去",ポテンシャル完全有限化
+,β 係数,"\\beta \\sim \\frac{N_c}{2\\pi^2} y_t^2 M_T^2 f^2 C",Top Partner 質量とヒッグス質量を結ぶ核,幾何係数 C に依存
+,関係式,"m_h \\approx \\frac{\\sqrt{6}}{\\pi} m_t \\left(\\frac{M_T}{f}\\right)\\sqrt{1-\\xi}\\sqrt{2C}",m_h–M_T–f の幾何学的鎖,"M_T \\sim 1\\text{–}1.5\\ \\text{TeV}（MCHM_5）"
+"(F) 表現選択（MCHM_5,_{14},_{20}）",MCHM_5,"\\mathbf{5} = \\mathbf{4}\\oplus\\mathbf{1}","ポテンシャル \\sin^2,\\sin^4 まで","C_5 \\sim 0.5,\\ M_T/f \\sim 1.1"
+,MCHM_{14},"\\mathbf{14} = \\mathbf{9}\\oplus\\mathbf{4}\\oplus\\mathbf{1}","\\sin^6 まで解禁","C_{14} \\gtrsim 1,\\ M_T/f \\sim 0.7"
+,MCHM_{20},高次テンソル,"\\sin^8 まで","C_{20} \\gtrsim 1.5,\\ M_T/f \\sim 0.6"
+,物理的帰結,"C\\uparrow \\Rightarrow M_T\\downarrow",高次表現ほど軽い Top Partner を要求,LHC により強く制約
+(G) LHC 直接探索（ATLAS/CMS）,X_{5/3},"電荷 +5/3, X_{5/3}\\to tW^+",Same-sign dilepton シグネチャ,"M_{X_{5/3}} \\gtrsim 1.5\\ \\text{TeV}"
+,T (VLQ-T),"電荷 +2/3, T\\to bW,\\ tH,\\ tZ",VLQ の代表的 Top Partner,"M_T \\gtrsim 1.4\\text{–}1.5\\ \\text{TeV}"
+,B,電荷 -1/3,"B\\to tW,\\ bZ,\\ bH","M_B \\gtrsim 1.35\\text{–}1.5\\ \\text{TeV}"
+,単独生成,"結合強い場合 M_T \\gtrsim 1.8\\text{–}2.0\\ \\text{TeV}",強結合セクターの結合度を制約,HL-LHC でさらに延伸予定
+(H) TTT-physics への統合視点,質量比テーブル,"m_i/m_e（17粒子＋f,M_T）",全階層を一枚の幾何表に埋め込む,"f/m_e,\\ M_T/m_e を追加行として扱う"
+,幾何インデックス,"6\\pi^5,\\ \\alpha^{-2},\\ e^{-k\\pi R}",「階層」をラベルするトポロジカル指標,レプトン・クォーク・ヒッグス・Top Partner を同一枠組で記述
+,実験境界,LHC 下限値を幾何テーブルの制約行として追加,「許される位相領域」を明示,理論空間のカットアウトを幾何学的に可視化
