@@ -1,5 +1,12 @@
 # TTT-core
 
+<!-- TTT-STATUS v1 -->
+> **状態**: U（未判定） — TTT_CORE.md v1.0 の鎖には含まれない
+> **判定**: リポジトリの入口。1836 と 137.03… を看板に掲げているが、どちらも判定済みである（STATUS.md 参照）。書き換えの優先度は最も高い。
+> **参照**: `TTT-physics/docs/TTT_CORE.md` / `TTT-physics/docs/PROOF_STATUS.md` / `STATUS.md`
+> 本文は当時のまま。PROOF_STATUS.md §27「後から黙って直さない」による。（2026-09-08）
+
+
 TTT-core（Tri-Tetra Theory 統合ハブ・根のリポジトリ）
 
 TTT理論は、数学的公理系（TTT-mathematics）から物理定数（TTT-physics）を導くことを目指す理論です。社会構造（TTT-society）と意識モデル（TTT-consciousness）は、物理基盤確立後の推論的展開であり、現時点では独立した哲学的応用として位置づけられています。
