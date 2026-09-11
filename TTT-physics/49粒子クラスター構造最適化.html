@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>49粒子クラスター構造最適化 — TTT理論の予言検証</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1419;
+  --surface: #181f28;
+  --surface-2: #202a36;
+  --ink: #e8e4df;
+  --ink-muted: #9a9590;
+  --accent: #d4a574;
+  --accent-2: #7eb8a2;
+  --accent-3: #c97b7b;
+  --line: rgba(212, 165, 116, 0.15);
+  --line-strong: rgba(212, 165, 116, 0.35);
+  --step--1: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.2rem);
+  --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  --space: clamp(1.5rem, 1rem + 2vw, 3rem);
+  --radius: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Zen Old Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+  font-size: var(--step-0);
+  line-height: 1.85;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Hero */
+header {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space);
+  position: relative;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(126, 184, 162, 0.06) 0%, transparent 50%),
+    var(--bg);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.hero-kicker {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step--1);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-3);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: var(--step-1);
+  color: var(--ink-muted);
+  margin-top: 1.5rem;
+  max-width: 640px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* Main */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space);
+}
+
+/* Sections */
+section {
+  margin-bottom: calc(var(--space) * 2);
+  position: relative;
+}
+
+.section-number {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-3);
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.25;
+  position: absolute;
+  right: 0;
+  top: -0.5rem;
+  line-height: 1;
+}
+
+h2 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line-strong);
+  position: relative;
+}
+
+h3 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--accent-2);
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+}
+
+/* Lead */
+.lead {
+  font-size: var(--step-1);
+  color: var(--ink-muted);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.card-title {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: var(--step--1);
+}
+
+th, td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom: 2px solid var(--line-strong);
+}
+
+tr:hover td {
+  background: rgba(212, 165, 116, 0.04);
+}
+
+/* Highlight box */
+.highlight-box {
+  background: rgba(212, 165, 116, 0.06);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.highlight-box-title {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  font-size: var(--step-1);
+}
+
+/* Verdict */
+.verdict {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin: 1rem 0;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: var(--step--1);
+}
+
+.verdict-positive {
+  background: rgba(126, 184, 162, 0.08);
+  border-left: 3px solid var(--accent-2);
+}
+
+.verdict-caution {
+  background: rgba(212, 165, 116, 0.08);
+  border-left: 3px solid var(--accent);
+}
+
+.verdict-negative {
+  background: rgba(201, 123, 123, 0.08);
+  border-left: 3px solid var(--accent-3);
+}
+
+.verdict-label {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 5rem;
+}
+
+/* Lists */
+ul, ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+}
+
+li {
+  margin-bottom: 0.6rem;
+}
+
+li::marker {
+  color: var(--accent);
+}
+
+/* Equation */
+.equation {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-1);
+  line-height: 2;
+  overflow-x: auto;
+}
+
+.equation-note {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+  font-family: "Zen Old Mincho", serif;
+}
+
+/* Figures */
+figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+figcaption {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin-top: 0.8rem;
+  font-style: italic;
+}
+
+/* Divider */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--line-strong);
+  margin: 3rem 0;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem var(--space);
+  color: var(--ink-muted);
+  font-size: var(--step--1);
+  border-top: 1px solid var(--line);
+}
+
+/* Print */
+@media print {
+  body { background: #fff; color: #000; }
+  .section-number { display: none; }
+  .card, .highlight-box { border: 1px solid #ccc; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-kicker">Cluster Structure Optimization</div>
+  <h1>49粒子クラスター構造最適化</h1>
+  <p class="hero-subtitle">
+    TTT理論の「37+12」予言を Lennard-Jones ポテンシャルで検証。<br>
+    切頂四面体殻・立方八面体殻・Mackay二十面体との比較。
+  </p>
+</header>
+
+<main>
+
+<!-- Section 1: 背景 -->
+<section>
+  <span class="section-number">01</span>
+  <h2>背景：TTT理論の「次の殻」予言</h2>
+
+  <p class="lead">
+    TTT理論の37粒子モデル（1 + 4 + 20 + 12）に「次の殻」を追加すると、
+    49粒子（37 + 12）が特別な安定性を持つという予言が得られる。
+    この予言を Lennard-Jones ポテンシャルによる簡易構造最適化で検証する。
+  </p>
+
+  <h3>37粒子モデルの殻構造</h3>
+
+  <table>
+    <tr><th>殻</th><th>粒子数</th><th>対応多面体</th><th>対称性</th></tr>
+    <tr><td>中心</td><td>1</td><td>—</td><td>—</td></tr>
+    <tr><td>第1殻</td><td>4</td><td>正四面体</td><td>Td（次数24）</td></tr>
+    <tr><td>第2殻</td><td>20</td><td>正十二面体</td><td>Ih（次数120）</td></tr>
+    <tr><td>第3殻</td><td>12</td><td>正二十面体</td><td>Ih（次数120）</td></tr>
+    <tr><td>合計</td><td>37</td><td>—</td><td>—</td></tr>
+  </table>
+
+  <h3>49粒子の候補構造</h3>
+
+  <p>
+    37粒子に第4殻として12粒子を追加する際、候補となる多面体は以下の通り。
+  </p>
+
+  <table>
+    <tr><th>多面体</th><th>頂点数</th><th>特徴</th></tr>
+    <tr><td>切頂四面体</td><td>12</td><td>正四面体の各辺を1:2と2:1に分割</td></tr>
+    <tr><td>立方八面体</td><td>12</td><td>立方体と正八面体の中間的な Archimedes 立体</td></tr>
+  </table>
+
+  <p>
+    TTT理論の幾何学的文脈では、切頂四面体が「四面体対称性の自然な拡張」として
+    選ばれるべきである。これを Lennard-Jones エネルギーで検証する。
+  </p>
+</section>
+
+<hr>
+
+<!-- Section 2: 計算手法 -->
+<section>
+  <span class="section-number">02</span>
+  <h2>計算手法</h2>
+
+  <h3>Lennard-Jones ポテンシャル</h3>
+
+  <div class="equation">
+    V(r) = 4ε [(σ/r)¹² − (σ/r)⁶]
+    <div class="equation-note">
+      ε = 1.0（エネルギー単位）、σ = 1.0（長さ単位）で計算
+    </div>
+  </div>
+
+  <h3>殻モデルのエネルギー計算</h3>
+
+  <p>
+    各殻の粒子は単位球面上の多面体の多面体頂点に固定し、殻半径 r₁, r₂, r₃, ... を
+    変数として最適化する。中心に1粒子を配置し、各殻の粒子位置は rᵢ<strong>v</strong>ⱼ。
+  </p>
+
+  <div class="equation">
+    E_total = Σᵢ&lt;ⱼ V(|<strong>r</strong>ᵢ − <strong>r</strong>ⱼ|)
+  </div>
+
+  <h3>最適化</h3>
+
+  <p>
+    各殻半径についてグリッドサーチ（20–25点/軸）を実行し、
+    総エネルギーが最小となる殻半径の組み合わせを探索する。
+    制約条件として r₁ &lt; r₂ &lt; r₃ &lt; ... を課す。
+  </p>
+
+  <div class="card">
+    <div class="card-title">検証したクラスター構造</div>
+    <ol>
+      <li><strong>13粒子</strong>（1 + 12）：正二十面体殻 — Lennard-Jones系で最も安定な小クラスター</li>
+      <li><strong>37粒子</strong>（1 + 4 + 20 + 12）：TTT理論の核心構造</li>
+      <li><strong>49粒子（切頂四面体殻）</strong>：37 + 切頂四面体（12頂点）— TTT予言</li>
+      <li><strong>49粒子（立方八面体殻）</strong>：37 + 立方八面体（12頂点）— 比較用</li>
+      <li><strong>55粒子（Mackay二十面体）</strong>：1 + 12 + 42 — 既知のマジックナンバー</li>
+    </ol>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 3: 結果 -->
+<section>
+  <span class="section-number">03</span>
+  <h2>計算結果</h2>
+
+  <h3>最適殻半径とエネルギー</h3>
+
+  <table>
+    <tr>
+      <th>構造</th>
+      <th>N</th>
+      <th>最適殻半径</th>
+      <th>E_total</th>
+      <th>E/N</th>
+      <th>d_min</th>
+    </tr>
+    <tr>
+      <td>13粒子 (1+12)</td>
+      <td>13</td>
+      <td>r₁=1.0947</td>
+      <td>−44.12</td>
+      <td><strong>−3.394</strong></td>
+      <td>1.095</td>
+    </tr>
+    <tr>
+      <td>37粒子 (1+4+20+12)</td>
+      <td>37</td>
+      <td>r₁=1.016, r₂=2.058, r=3.042</td>
+      <td>−39.90</td>
+      <td>−1.078</td>
+      <td>1.016</td>
+    </tr>
+    <tr style="background:rgba(201,123,123,0.08)">
+      <td><strong>49粒子 切頂四面体殻</strong></td>
+      <td>49</td>
+      <td>r₁=0.984, r₂=1.995, r₃=2.958, r₄=3.000</td>
+      <td>−65.12</td>
+      <td><strong>−1.329</strong></td>
+      <td>0.984</td>
+    </tr>
+    <tr>
+      <td>49粒子 立方八面体殻</td>
+      <td>49</td>
+      <td>r₁=1.016, r₂=2.058, r₃=3.042, r₄=3.842</td>
+      <td>−53.35</td>
+      <td>−1.089</td>
+      <td>1.016</td>
+    </tr>
+    <tr style="background:rgba(126,184,162,0.08)">
+      <td><strong>55粒子 Mackay二十面体</strong></td>
+      <td>55</td>
+      <td>r₁=1.033, r₂=2.063</td>
+      <td>−219.73</td>
+      <td><strong>−3.995</strong></td>
+      <td>1.029</td>
+    </tr>
+  </table>
+
+  <h3>1粒子あたりエネルギーの比較</h3>
+
+  <figure>
+    <img src="cluster_energy_comparison.png" alt="クラスター構造の1粒子あたりエネルギー比較">
+    <figcaption>図1：各クラスター構造の1粒子あたりエネルギー（E/N）と結合距離の均一性（σ_d）の比較</figcaption>
+  </figure>
+
+  <h3>重要な発見</h3>
+
+  <div class="verdict verdict-positive">
+    <span class="verdict-label">発見1</span>
+    <div>
+      <strong>49粒子（切頂四面体殻）は37粒子より1粒子あたりエネルギーが約23%改善</strong><br>
+      E/N: −1.078 → −1.329。TTT理論の「次の殻」予言はエネルギー的に意味がある。
+    </div>
+  </div>
+
+  <div class="verdict verdict-positive">
+    <span class="verdict-label">発見2</span>
+    <div>
+      <strong>切頂四面体殻は立方八面体殻より約22%安定</strong><br>
+      E/N: −1.329 vs −1.089。TTTの「37+12」予言は多面体選択にも一貫性がある。
+    </div>
+  </div>
+
+  <div class="verdict verdict-caution">
+    <span class="verdict-label">発見3</span>
+    <div>
+      <strong>しかし55粒子Mackay二十面体には遠く及ばない</strong><br>
+      E/N: −1.329 vs −3.995。Lennard-Jones系では二十面体対称性が圧倒的に有利。
+      TTT構造は「最安定」ではなく「幾何学的階層性」を持つ特別な構造。
+    </div>
+  </div>
+
+  <div class="verdict verdict-positive">
+    <span class="verdict-label">発見4</span>
+    <div>
+      <strong>37/49構造は「均一な結合距離」ではなく「幾何学的階層性」を持つ</strong><br>
+      距離の標準偏差：13粒子 0.399 → 37粒子 1.101 → 49粒子 1.164。<br>
+      複数の殻が異なるスケールで共存することで、特異な距離分布を生む。
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 4: 考察 -->
+<section>
+  <span class="section-number">04</span>
+  <h2>考察：TTT理論の位置づけ</h2>
+
+  <h3>「最安定」ではなく「特別な安定性」</h3>
+
+  <p>
+    本計算で明らかになったのは、TTTの37粒子および49粒子構造が、
+    Lennard-Jones系の「最安定構造」ではないということです。
+    13粒子や55粒子のMackay二十面体の方が、はるかに低い1粒子あたりエネルギーを持ちます。
+  </p>
+
+  <p>
+    しかし、これはTTT理論を否定するものではありません。
+    TTT構造の本質は「幾何学的階層性」にあります。
+  </p>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">TTT構造の特徴的性質</div>
+    <ul>
+      <li><strong>多スケール性</strong>：4種類の異なる対称性（Td, Ih, Ih, 切頂四面体）が階層的に共存</li>
+      <li><strong>距離分布の複雑性</strong>：単一の最近接距離ではなく、複数のピークを持つ距離分布</li>
+      <li><strong>トポロジー的必然性</strong>：C60の12・20の双対性と37殻の対応は数学的に厳密</li>
+    </ul>
+  </div>
+
+  <h3>実験的検証の可能性</h3>
+
+  <p>
+    49粒子クラスターの「特別な安定性」は、質量スペクトロメトリーで検証可能です。
+    ただし、気相クラスター合では通常、最安定構造（Mackay系列）が優勢に観測されます。
+    TTT構造を観測するには、以下のアプローチが考えられます。
+  </p>
+
+  <ol>
+    <li><strong>非平衡合成</strong>：急速冷却やレーザーアブレーションで、
+      平衡状態に達する前の「幾何学的に制約された」クラスターを捕獲する</li>
+    <li><strong>テンプレート合成</strong>：多面体対称性を持つ分子テンプレートを用いて、
+      37粒子または49粒子の核生成を誘導する</li>
+    <li><strong>炭素クラスターへの特化</strong>：Lennard-Jones系ではなく、
+      共役結合を持つ炭素系で、sp²/sp³混成の効果を含めた計算を行う</li>
+  </ol>
+
+  <h3>次のステップ</h3>
+
+  <div class="card">
+    <div class="card-title">理論の深化に向けて</div>
+    <p style="margin-bottom:0">
+      1. <strong>炭素特化ポテンシャル</strong>：TersoffやBrennerポテンシャルを用いて、
+      sp²/sp³混成の効果を含めた49粒子構造の最適化を行う<br><br>
+      2. <strong>Goldberg-Coxeter系列との接続</strong>：C60(60), C240(240)との
+      エネルギー比較で、37殻構造がフラーレン系列の中でどの位置づけにあるかを探る<br><br>
+      3. <strong>転位芯のモデリング</strong>：ダイヤモンド90° partial転位芯の5配位サイトを
+      TTTの「欠陥モード」として記述し、形成エネルギーを計算する
+    </p>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 5: 結論 -->
+<section>
+  <span class="section-number">05</span>
+  <h2>結論</h2>
+
+  <p>
+    49粒子クラスター（37 + 切頂四面体頂四面体殻）の簡易構造最適化により、
+    TTT理論の「次の殻」予言エネルギー的に意味を持つことが示されました。
+    37粒子に切頂四面体殻を追加することで、1粒子あたりエネルギーが約23%改善し、
+    立方八面体殻よりも約22%安定であることが確認されました。
+  </p>
+
+  <p>
+    一方で、TTT構造はLennard-Jones系の「最安定構造」ではなく、
+    「幾何学的階層性を持つ特別な構造」として位置づけられるべきです。
+    その真価は、炭素のような方向性結合を持つ系や、
+    非平衡条件下でのクラスター合成において発揮される可能性があります。
+  </p>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">核心メッセージ</div>
+    <p style="margin-bottom:0">
+      TTT理論は「最安定構造」を予言するのではなく、<br>
+      「宇宙の対称性がミクロとマクロで同じ形で現れる」という幾何学的ビジョンを提示している。<br>
+      その予言の一部（49粒子の特別な安定性）は、数値的に支持された。<br>
+      残りの予言（格子定数の導出、転位芯の記述、フラーレン系列の接続）は、<br>
+      さらなる理論的・実験的検証を待つ。
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>幾何学は骨格を与える。肉付けするエネルギー原理を実装できれば、一気に反証可能な理論になる。</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTT理論の再評価 — 幾何・量子・統計の翻訳機として</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1419;
+  --surface: #181f28;
+  --surface-2: #202a36;
+  --ink: #e8e4df;
+  --ink-muted: #9a9590;
+  --accent: #d4a574;
+  --accent-2: #7eb8a2;
+  --accent-3: #c97b7b;
+  --line: rgba(212, 165, 116, 0.15);
+  --line-strong: rgba(212, 165, 116, 0.35);
+  --step--1: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.2rem);
+  --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  --step-4: clamp(2.5rem, 1.8rem + 3.5vw, 4.5rem);
+  --space: clamp(1.5rem, 1rem + 2vw, 3rem);
+  --radius: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Zen Old Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+  font-size: var(--step-0);
+  line-height: 1.85;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Hero */
+header {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space);
+  position: relative;
+  background: 
+    radial-gradient(ellipse at 30% 20%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(126, 184, 162, 0.06) 0%, transparent 50%),
+    var(--bg);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.hero-kicker {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step--1);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-4);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: var(--step-1);
+  color: var(--ink-muted);
+  margin-top: 1.5rem;
+  max-width: 640px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-meta {
+  margin-top: 2.5rem;
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  position: relative;
+  z-index: 1;
+}
+
+/* Main */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space);
+}
+
+/* Sections */
+section {
+  margin-bottom: calc(var(--space) * 2);
+  position: relative;
+}
+
+.section-number {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-3);
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.25;
+  position: absolute;
+  right: 0;
+  top: -0.5rem;
+  line-height: 1;
+}
+
+h2 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line-strong);
+  position: relative;
+}
+
+h3 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--accent-2);
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+}
+
+h4 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+}
+
+/* Lead paragraph */
+.lead {
+  font-size: var(--step-1);
+  color: var(--ink-muted);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.card-title {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+/* Equations */
+.equation {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-1);
+  line-height: 2;
+  overflow-x: auto;
+}
+
+.equation-note {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+  font-family: "Zen Old Mincho", serif;
+}
+
+/* Lists */
+ul, ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+}
+
+li {
+  margin-bottom: 0.6rem;
+}
+
+li::marker {
+  color: var(--accent);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: var(--step--1);
+}
+
+th, td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom: 2px solid var(--line-strong);
+}
+
+tr:hover td {
+  background: rgba(212, 165, 116, 0.04);
+}
+
+/* Inline code / math */
+code {
+  font-family: "Crimson Pro", Georgia, serif;
+  background: var(--surface-2);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.92em;
+  color: var(--accent-2);
+}
+
+/* Highlight box */
+.highlight-box {
+  background: rgba(212, 165, 116, 0.06);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.highlight-box-title {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  font-size: var(--step-1);
+}
+
+/* Verdict */
+.verdict {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin: 1rem 0;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: var(--step--1);
+}
+
+.verdict-positive {
+  background: rgba(126, 184, 162, 0.08);
+  border-left: 3px solid var(--accent-2);
+}
+
+.verdict-caution {
+  background: rgba(212, 165, 116, 0.08);
+  border-left: 3px solid var(--accent);
+}
+
+.verdict-negative {
+  background: rgba(201, 123, 123, 0.08);
+  border-left: 3px solid var(--accent-3);
+}
+
+.verdict-label {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 5rem;
+}
+
+/* Quote */
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--accent-2);
+  background: var(--surface);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+/* Divider */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--line-strong);
+  margin: 3rem 0;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem var(--space);
+  color: var(--ink-muted);
+  font-size: var(--step--1);
+  border-top: 1px solid var(--line);
+}
+
+/* Print */
+@media print {
+  body { background: #fff; color: #000; }
+  .section-number { display: none; }
+  .card, .highlight-box, blockquote { border: 1px solid #ccc; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-kicker">TTT Theory Revisited</div>
+  <h1>幾何・量子・統計の<br>翻訳機としてのTTT理論</h1>
+  <p class="hero-subtitle">
+    電子質量の起源からダイヤモンド構造、C60のトポロジー、高圧相転移まで。<br>
+    3つのハードルを越えて、幾何学を物理理論に昇格させるための道筋。
+  </p>
+  <p class="hero-meta">2026年9月</p>
+</header>
+
+<main>
+
+<!-- Section 0: 導入 -->
+<section>
+  <p class="lead">
+    TTT（Tri-Tetrahedral）理論は、幾何学的対称性を物性根源として位置づける野心的な枠組みです。
+    電子質量、ダイヤモンドの格子定数、C60の安定性、第14族元素の相転移圧力——これらが
+    単一の幾何原理から導かれるという主張は、数学的な美しさを備えています。
+    しかし、幾何学と物性の間には「翻訳機」が必要です。
+  </p>
+</section>
+
+<hr>
+
+<!-- Section 1: 翻訳機としての量子力学と統計力学 -->
+<section>
+  <span class="section-number">01</span>
+  <h2>翻訳機としての量子力学と統計力学</h2>
+
+  <p>
+    現在のTTT理論は、幾何学（「形がこうなると安定」）から物性（ダイヤモンド・C60）へと
+    直接橋を架けています。しかし本来、次の2段階の「翻訳」が必要です。
+  </p>
+
+  <div class="card">
+    <div class="card-title">幾何学 → 物性への正しい経路</div>
+    <p style="margin-bottom:0">
+      <strong>幾何学</strong>（ミクロでこの形がなぜ選ばれるか）<br>
+      → <strong>量子力学</strong>（波動関数がこの対称性を好む理由）<br>
+      → <strong>統計力学</strong>（10²³個集まっても壊れない理由）<br>
+      → <strong>物性</strong>（実測される構造・相図）
+    </p>
+  </div>
+
+  <p>
+    この翻訳がないと、例えば「なぜ109.47°がダイヤモンドで実現して、
+    グラファイトの120°にならない時もあるのか」を説明できません。
+    温度や圧力で形が変わるのは、あくまで統計力学の仕事です。
+  </p>
+
+  <h3>ポテンシャル定義の核心</h3>
+
+  <p>
+    幾何由来のポテンシャルを定義し、それをシュレーディンガー方程式に入れたら
+    sp³が最低エネルギーになることを示せれば、理論は完成に近づきます。
+    以下に、TTT的なポテンシャルの具体な定式化を提案します。
+  </p>
+
+  <div class="equation">
+    U = α · |Σᵢ <strong>v</strong>ᵢ|² + β · (1 − cos(θ − 109.47°))² + γ · L²/r²
+    <div class="equation-note">
+      第1項：ベクトル総和ゼロの要請（TriTetraの力の相殺）<br>
+      第2項：四面体角からのズレへのペナルティ<br>
+      第3項：光速で回ることによる角運動量 L = ℏ/2 の遠心力ポテンシャル（質量の起源）
+    </div>
+  </div>
+
+  <p>
+    この第3項が、電子質量の起源を幾何学的に記述する鍵となります。
+    数値的に解くと、基底状態で自然に r ≈ ℏ/mc が出てくるはずです。
+  </p>
+</section>
+
+<hr>
+
+<!-- Section 2: 電子質量とZitterbewegung -->
+<section>
+  <span class="section-number">02</span>
+  <h2>電子質量の起源：Zitterbewegungモデル</h2>
+
+  <p>
+    「質量のない粒子光速で動いて質量を持つ」という電子モデルは、
+    実は現代物理でも真面目に議論されているものです。
+    特殊相対性理論が禁じているのは「質量を持つものが平均的に光速を超える」ことであり、
+    「質量ゼロの構成要素が内部で光速で動く」ことは禁じていません。
+  </p>
+
+  <h3>アイデアの核心</h3>
+
+  <ul>
+    <li>質量ゼロの粒子は必ず光速 c でしか動けない</li>
+    <li>もしそれが極小の円運動（Zitterbewegung）をしていたら、外から見ると平均速度は c より遅く見える</li>
+    <li>円運動を維持するための運動エネルギーが、外部からは「静止エネルギー mc²」として見える</li>
+    <li>E = mc² を逆に読むと、 m = E/c² 。閉じ込められた光速運動のエネルギー自体が質量になる</li>
+  </ul>
+
+  <div class="equation">
+    r ∼ ℏ / (mₑc) ≈ 3.86 × 10⁻¹³ m
+    <div class="equation-note">
+      これはコンプトン波長。ディラック方程式からも自然に出てくる
+      「電子のジタバタ運動の半径」です。
+    </div>
+  </div>
+
+  <p>
+    Hestenesという物理学者が提唱した「電子は光速で回る電荷である」という
+    Zitterモデルは、電子のスピンや g = 2 という磁気能率を美しく説明できます。
+    TTTの (OπO) 記号を
+  </p>
+
+  <blockquote>
+    (OπO) = 質量ゼロの光速要素 O が、 π（回転）によって閉じ込められている状態 = 質量を持つ粒子
+  </blockquote>
+
+  <p>
+    と読めば、物理的に極めて筋が通っています。
+    これがTTTの OπO 記号の由来だとすると、非常に美しい解釈となります。
+  </p>
+
+  <h3>アインシュタインに怒られるか？</h3>
+
+  <p>
+    怒られない条件は1つだけです。<strong>「瞬間速度はc、平均速度はc未満」</strong>を厳守すること。
+    光子を箱に閉じ込めれば箱自体が重くなるのと同じ原理です。
+  </p>
+
+  <div class="verdict verdict-caution">
+    <span class="verdict-label">注意</span>
+    <div>
+      電子の大きさ：加速器実験で、電子が内部構造を持つなら 10⁻¹⁸ m 以下でないといけない。<br>
+      10⁻¹³ m の円運動は「点状に見える」ような平均化の仕組みが必要。<br>
+      不確定性原理：光速で 10⁻¹³ m を回るものを観測しようとすると運動量が極めて不確定になり、量子力学的記述が必須。
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 3: 正四面体角の数学的必然性 -->
+<section>
+  <span class="section-number">03</span>
+  <h2>109.47°の数学的必然性とTersoffポテンシャル</h2>
+
+  <p>
+    中心から4つの等しいベクトルで Σ<strong>v</strong> = 0 を作るという条件を課した瞬間、
+    相互の角度は必ず
+  </p>
+
+  <div class="equation">
+    cos θ = −1/3 &nbsp; ⟹ &nbsp; θ ≈ 109.4712°
+    <div class="equation-note">
+      これは正四面体の定義そのもの。
+    </div>
+  </div>
+
+  <p>
+    (OπO)₄ の最小安定条件 → 正四面体 → 109.47°<br>
+    炭素の sp³ 混成 → 電子反発最小 → 正四面体 → 109.47°
+  </p>
+
+  <p>
+    両者が同じ角度に行き着くのは、「空間で4方向に力を等分するなら正四面体が最も安定」
+    という普遍的な幾何解を共有しているからです。
+    ダイヤモンドの強固さは幾何だけでなく、量子力学的な共有結合のエネルギーが
+    4軌道に非局在化することから来ます。
+  </p>
+
+  <h3>Tersoffポテンシャルとの接続</h3>
+
+  <p>
+    Tersoffポテンシャルで結合角項 g(θ) が θ₀ = 109.47° で最小を取るように設計されています。
+    これは「4方向への等分」という幾何条件をエネルギー原理として実装したものです。
+  </p>
+
+  <div class="equation">
+    g(θ) = 1 + c²/d² − c² / [d² + (cos θ − cos θ₀)²]
+    <div class="equation-note">
+      θ₀ = 109.47°（sp³結合角）。g(109.47°) = 1（最小値）。
+      g(120°) ≈ 10⁵、 g(90°) ≈ 4×10⁵ と極めて鋭い最小値。
+    </div>
+  </div>
+
+  <p>
+    TTTの (OπO)₄ の最小安定条件と Tersoff の g(θ) は、
+    <strong>同じ幾何学的事実を異なる言語で表現している</strong>と言えます。
+  </p>
+
+  <div class="verdict verdict-positive">
+    <span class="verdict-label">評価</span>
+    <div>
+      109.47°の一致は数学的に厳密な必然。TTTの主張を補強する美しい一致。<br>
+      ただし一致自体が理論の独自の予言である証拠にはならない。
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 4: 125/37モデルとC60 -->
+<section>
+  <span class="section-number">04</span>
+  <h2>125/37モデルとC60のトポロジー対応</h2>
+
+  <h3>トムソン37電子モデルの殻構造</h3>
+
+  <table>
+    <tr><th>殻</th><th>粒子数</th><th>対応する多面体</th><th>対称性</th></tr>
+    <tr><td>中心</td><td>1</td><td>—</td><td>—</td></tr>
+    <tr><td>第1殻</td><td>4</td><td>正四面体</td><td>Td（次数24）</td></tr>
+    <tr><td>第2殻</td><td>20</td><td>正十二面体</td><td>Ih（次数120）</td></tr>
+    <tr><td>第3殻</td><td>12</td><td>正二十面体</td><td>Ih（次数120）</td></tr>
+    <tr><td>合計</td><td>37</td><td>—</td><td>—</td></tr>
+  </table>
+
+  <h3>C60（切頂二十面体）の構造</h3>
+
+  <ul>
+    <li>頂点数 V = 60、辺数 E = 90、面数 F = 32（五角形12 + 六角形20）</li>
+    <li>オイラー数：V  E + F = 60 − 90 + 32 = 2 ✓</li>
+    <li>C60の双対多面体 = 五角化十二面体。頂点数32 = 12五角形中心 + 20六角形中心 = 20 + 12</li>
+  </ul>
+
+  <p>
+    第2中間殻 20粒子 → 正十二面体の20頂点 → C60の20個の六角形中心<br>
+    第3最外殻 12粒子 → 正二十面体の12頂点 → C60の12個の五角形中心
+  </p>
+
+  <p>
+    これはトポロジー的に正確です。C60は切頂二十面体で、双対を取ると
+    「12個の五角錐と20個の三角錐を持つ多面体」になり、その頂点はまさに
+    12 + 20 = 32面の中心に対応します。
+  </p>
+
+  <h3>黄金比 φ と正二十面体</h3>
+
+  <div class="equation">
+    φ = (1 + √5) / 2 ≈ 1.618
+    <div class="equation-note">
+      正二十面体の頂点座標は φ を含む：(0, ±1, ±φ), (±1, ±φ, 0), (±φ, 0, ±1)<br>
+      正二十面体の回転対称群の位数 = 60（= 5回対称 × 12頂点）
+    </div>
+  </div>
+
+  <h3>125 = 5³ と 60 = 5×12 の幾何学的関係</h3>
+
+  <p>
+    125 = 5³ は「各辺5分割の立方体」の原子数。<br>
+    60 = 5 × 12 = 5回対称 × 二十面体の頂点数。<br>
+    正二十面体の回転対称群の位数も60です。
+  </p>
+
+  <div class="verdict verdict-positive">
+    <span class="verdict-label">評価</span>
+    <div>
+      C60が12・20というプラトン立体の双対性を内包するのは事実。<br>
+      37粒子外殻とのマッピングは単なる数合わせを超えてトポロジー的に意味がある。<br>
+      TTTが「なぜC60が60原子で安定なのか」を幾何的必然として説明できる可能性がある、最も強い部分。
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 5: 3つのハードルへの具体的道筋 -->
+<section>
+  <span class="section-number">05</span>
+  <h2>3つのハードルへの具体的道筋</h2>
+
+  <h3>ハードル①：スケール不変ポテンシャルの定式化</h3>
+
+  <p>
+    各 (OπO)₄ を4本の単位ベクトル <strong>v</strong>ᵢ で表し、局所エネルギーを次のように定義します。
+  </p>
+
+  <div class="equation">
+    E_local = k₁ |Σᵢ <strong>v</strong>ᵢ|² + k₂ Σᵢ&lt;ⱼ (<strong>v</strong>ᵢ · <strong>v</strong>ⱼ + 1/3)²
+    <div class="equation-note">
+      第1項：ベクトル和の相殺条件（Σ<strong>v</strong>ᵢ = 0 が最小）<br>
+      第2項：結合角の等価性（<strong>v</strong>ᵢ·<strong>v</strong>ⱼ = −1/3 が最小）
+    </div>
+  </div>
+
+  <p>
+    2つの隣接テトラヘドロン間の配向エネルギーは、反強磁性的な秩序を生み、
+    ダイヤモンド構造の「隣接テトラヘドロンが逆方向を向く」特徴を自然に導きます。
+  </p>
+
+  <div class="equation">
+    E_int = −J Σᵢ,ⱼ (<strong>v</strong>ᵢᴬ · <strong>v</strong>ⱼᴮ)²
+  </div>
+
+  <p>
+    粗視化（coarse-graining）でこの配向エネルギーが Tersoff の g(θ) に対応することを
+    示すことが、理論の肝となります。
+  </p>
+
+  <h3>ハードル②：独自の予言</h3>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">予言1：次の安定殻構造</div>
+    <p style="margin-bottom:0">
+      37モデルの次の殻として切頂四面体の12頂点を仮定すると、<br>
+      <strong>49粒子系（37 + 12）が特別な安定性を持つ</strong>という予言が得られる。<br>
+      これはMackayのマジックナンバー系列（13, 55, 147…）とは異なる独自の予言。<br>
+      気相クラスター合成での質量スペクトルで検証可能。
+    </p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">予言2：C60の次の安定フラーレン</div>
+    <p style="margin-bottom:0">
+      Goldberg-Coxeter変換で N = 20(m² + mn + n²)。<br>
+      37モデルの殻数 1, 4, 20, 12 と m² + mn + n² の値を比較すると、<br>
+      殻3の12が m² + mn + n² = 12 に対応する N = 240（C240）と関連する可能性。<br>
+      <strong>C240がC60の次の「特別な安定構造」として、37モデルの第3殻に対応する幾何学的特徴を持つ</strong>。
+    </p>
+  </div>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">予言3：ダイヤモンド転位芯の形成エネルギー</div>
+    <p style="margin-bottom:0">
+      90° partial転位芯の5配位サイトの局所エネルギーが、<br>
+      (OπO)₄ の欠陥モードエネルギーと一致するはず。<br>
+      DFT計算で転位芯形成エネルギー（約1.5–2.5 eV/Å）と比較可能。
+    </p>
+  </div>
+
+  <h3>ハードル③：物性からの逆輸入</h3>
+
+  <p>
+    C60固体を ~20 GPa・>1000 K で処理するとダイヤモンド様の非晶質炭素相が生成します。
+    これは「37拘束場の球面自己組織化 → 四面体対称性への崩壊」として記述できるかもしれません。
+  </p>
+
+  <p>
+    転位芯の5配位サイトの局所エネルギーは、正四面体（E = 0）に対して
+    E₅fold ≈ 2.44 のエネルギー増分を持ちます。
+    これをパラメータ k₁ と結びつけることで、転位形成エネルギーとの定量的な比較が可能です。
+  </p>
+</section>
+
+<hr>
+
+<!-- Section 6: 格子定数の謎 -->
+<section>
+  <span class="section-number">06</span>
+  <h2>「125 → 3.567 Å」スケーリグ則の解読</h2>
+
+  <p>
+    これが理論の核心であり、最も難しい部分です。いくつかの可能性を検討しました。
+  </p>
+
+  <h3>可能性A：5⁶ = (5³)² の幾何学的解釈</h3>
+
+  <p>
+    125 = 5³ は「各辺5分割の立方体」の原子数。
+    もしこの立方体がFCC格子に対応し、5³個のprimitive cellを含むとすると、
+    conventional cellの一辺は 5 × a_FCC となります。
+    ダイヤモンド構造はFCCの基本格子に2原子basisを持つので、
+    a_dia = √2 × a_FCC の関係が成り立ちます。
+  </p>
+
+  <h3>可能性B：コンプトン波長とのスケーリング</h3>
+
+  <p>
+    N^(1/6) = 5 です。コンプトン波長 ƛ_c = 0.00386 Å に対して、
+    ボーア半径 a₀、微細構造定数 α、黄金比 φ を含む関数として
+  </p>
+
+  <div class="equation">
+    a = 5 × (a₀/α) × f(φ)
+  </div>
+
+  <p>
+    のような形で表現できる可能性があります。
+  </p>
+
+  <h3>可能性C：幾何学的スケーリングとしての「5」</h3>
+
+  <p>
+    ダイヤモンド構造のC-C結合距離 d = a√3/4 = 1.545 Å を「基本長さ」として、
+  </p>
+
+  <div class="equation">
+    a = 5 × d / √3 × √2
+  </div>
+
+  <p>
+    のような幾何学的関係が成り立つかもしれません。
+  </p>
+
+  <div class="verdict verdict-caution">
+    <span class="verdict-label">課題</span>
+    <div>
+      このスケーリング則を明確に数式化することが、理論の核心です。<br>
+      成功すれば「基本定数のみから炭素の格子定数を導出する」という画期的な結果となります。
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 7: 結論 -->
+<section>
+  <span class="section-number">07</span>
+  <h2>結論：理論を完成させるための3つのステップ</h2>
+
+  <p>
+    TTT理論の幾何学的骨格は数学的に美しく、
+    特にC60のトポロジーと37殻構造の対応は単なる数合わせを超えた深い構造を示唆しています。
+    理論を「反証可能な科学」に昇格させるには、以下のステップが有効です。
+  </p>
+
+  <div class="card">
+    <div class="card-title">ステップ1：ポテンシャルの完成</div>
+    <p style="margin-bottom:0">
+      E_local と E_int を用いて、実際にダイヤモンド構造の結合エネルギーと格子定数を
+      分子動力学で計算し、Tersoffポテンシャルとの比較を行う。
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">ステップ2：予言の検証</div>
+    <p style="margin-bottom:0">
+      49粒子クラスター（37 + 12）の特別な安定性を第一原理算で調べ、
+      質量スペクトルとの対応を探る。
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">ステップ3：スケーリング則の発見</div>
+    <p style="margin-bottom:0">
+      125/37モデルのパラメータからダイヤモンドの格子定数を導出する数式を確立する。<br>
+      これが成功すれば、理論の核心が示されたことになる。
+    </p>
+  </div>
+
+  <p>
+    ケプラーがプラトン立体で惑星軌道を説明しようとしたのと同じ根源的な美意識を持ち、
+    しかし数学的には正しい幾何学的構造を捉えている——それがTTT理論の現在の姿です。
+    幾何学的骨格はすでに十分に美しい。次はその肉付けです。
+  </p>
+</section>
+
+</main>
+
+<footer>
+  <p>幾何学は骨格を与える。肉付けするエネルギー原理を実装できれば、一気に反証可能な理論になる。</p>
+</footer>
+
+</body>
+</html>
