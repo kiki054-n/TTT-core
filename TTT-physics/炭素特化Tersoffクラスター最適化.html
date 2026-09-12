@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>炭素特化Tersoffポテンシャルでのクラスター最適化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1419;
+  --surface: #181f28;
+  --surface-2: #202a36;
+  --ink: #e8e4df;
+  --ink-muted: #9a9590;
+  --accent: #d4a574;
+  --accent-2: #7eb8a2;
+  --accent-3: #c97b7b;
+  --accent-4: #4a90d9;
+  --line: rgba(212, 165, 116, 0.15);
+  --line-strong: rgba(212, 165, 116, 0.35);
+  --step--1: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.25rem + 1.2vw, 2.2rem);
+  --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+  --space: clamp(1.5rem, 1rem + 2vw, 3rem);
+  --radius: 10px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Zen Old Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif;
+  font-size: var(--step-0);
+  line-height: 1.85;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Hero */
+header {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--space);
+  position: relative;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(212, 165, 116, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(74, 144, 217, 0.06) 0%, transparent 50%),
+    var(--bg);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.hero-kicker {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step--1);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-3);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 900px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-subtitle {
+  font-size: var(--step-1);
+  color: var(--ink-muted);
+  margin-top: 1.5rem;
+  max-width: 640px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+/* Main */
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space);
+}
+
+/* Sections */
+section {
+  margin-bottom: calc(var(--space) * 2);
+  position: relative;
+}
+
+.section-number {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-3);
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.25;
+  position: absolute;
+  right: 0;
+  top: -0.5rem;
+  line-height: 1;
+}
+
+h2 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line-strong);
+  position: relative;
+}
+
+h3 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-1);
+  font-weight: 600;
+  color: var(--accent-2);
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+}
+
+h4 {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+}
+
+/* Lead */
+.lead {
+  font-size: var(--step-1);
+  color: var(--ink-muted);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  border-left: 3px solid var(--accent);
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.card-title {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+/* Equations */
+.equation {
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  padding: 1.2rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: "Crimson Pro", Georgia, serif;
+  font-size: var(--step-1);
+  line-height: 2;
+  overflow-x: auto;
+}
+
+.equation-note {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+  font-family: "Zen Old Mincho", serif;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: var(--step--1);
+}
+
+th, td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom: 2px solid var(--line-strong);
+}
+
+tr:hover td {
+  background: rgba(212, 165, 116, 0.04);
+}
+
+/* Highlight box */
+.highlight-box {
+  background: rgba(212, 165, 116, 0.06);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.highlight-box-title {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  font-size: var(--step-1);
+}
+
+/* Verdict */
+.verdict {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin: 1rem 0;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: var(--step--1);
+}
+
+.verdict-positive {
+  background: rgba(126, 184, 162, 0.08);
+  border-left: 3px solid var(--accent-2);
+}
+
+.verdict-caution {
+  background: rgba(212, 165, 116, 0.08);
+  border-left: 3px solid var(--accent);
+}
+
+.verdict-negative {
+  background: rgba(201, 123, 123, 0.08);
+  border-left: 3px solid var(--accent-3);
+}
+
+.verdict-label {
+  font-family: "Crimson Pro", Georgia, serif;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 5rem;
+}
+
+/* Lists */
+ul, ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+}
+
+li {
+  margin-bottom: 0.6rem;
+}
+
+li::marker {
+  color: var(--accent);
+}
+
+/* Figures */
+figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+figcaption {
+  font-size: var(--step--1);
+  color: var(--ink-muted);
+  margin-top: 0.8rem;
+  font-style: italic;
+}
+
+/* Divider */
+hr {
+  border: none;
+  height: 1px;
+  background: var(--line-strong);
+  margin: 3rem 0;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 3rem var(--space);
+  color: var(--ink-muted);
+  font-size: var(--step--1);
+  border-top: 1px solid var(--line);
+}
+
+/* Print */
+@media print {
+  body { background: #fff; color: #000; }
+  .section-number { display: none; }
+  .card, .highlight-box { border: 1px solid #ccc; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-kicker">Tersoff Potential / Carbon</div>
+  <h1>炭素特化Tersoffポテンシャルでの<br>クラスター構造最適化</h1>
+  <p class="hero-subtitle">
+    Lennard-JonesとTersoffで定性的に異なる結果が出た。<br>
+    方向性結合が49粒子予言に与える影響を証する。
+  </p>
+</header>
+
+<main>
+
+<!-- Section 1: 背景 -->
+<section>
+  <span class="section-number">01</span>
+  <h2>背景：LJからTersoffへの移行</h2>
+
+  <p class="lead">
+    前回のLennard-Jones計算では、49粒子（切頂四面体殻）が37粒子より約23%エネルギー改善を示した。
+    しかし炭素は方向性結合を持つため、LJのような中心力場ポテンシャルでは不十分。
+    Tersoffポテンシャル（角依存項 g(θ) を含む）で再計算すると、驚くべき逆転現象が起こる。
+  </p>
+
+  <h3>Tersoffポテンシャルの炭素パラメータ</h3>
+
+  <p>
+    Tersoff (1988) Phys. Rev. B 37, 6991 の炭素パラメータを使用。
+    結合角項 g(θ) は θ₀ = 109.47° で最小を取るように設計されている。
+  </p>
+
+  <div class="equation">
+    g(θ) = 1 + c²/d² − c² / [d² + (h − cos θ)²]
+    <div class="equation-note">
+      c = 38049, d = 4.348, h = −0.57058<br>
+      g(109.47°) = 1（最小値）、g(120°) ≈ 10⁵、g(90°) ≈ 4×10⁵<br>
+      sp³結合角に極めて鋭い最小値を持つ
+    </div>
+  </div>
+
+  <h3>計算手法</h3>
+
+  <ul>
+    <li>各殻の粒子は単位球面上の多面体頂点に固定</li>
+    <li>殻半径 r₁, r₂, r₃, ... をグリッドサーチで最適化（15–20点/軸）</li>
+    <li>制約条件：r₁ &lt; r₂ &lt; r₃ &lt; ...</li>
+    <li>総エネルギー E = ½ Σᵢ Σⱼ≠ᵢ fC(rᵢⱼ) [fR(rᵢⱼ) + bᵢⱼ · fA(rᵢⱼ)] を計算</li>
+  </ul>
+</section>
+
+<hr>
+
+<!-- Section 2: 結果 -->
+<section>
+  <span class="section-number">02</span>
+  <h2>計算結果</h2>
+
+  <h3>クラスター構造のTersoffエネルギー</h3>
+
+  <table>
+    <tr>
+      <th>構造</th>
+      <th>N</th>
+      <th>最適殻半径 (Å)</th>
+      <th>E_total (eV)</th>
+      <th>E/N (eV)</th>
+      <th>d_min (Å)</th>
+    </tr>
+    <tr>
+      <td>13粒子 (1+12)</td>
+      <td>13</td>
+      <td>r₁=1.828</td>
+      <td>−23.85</td>
+      <td>−1.835</td>
+      <td>1.828</td>
+    </tr>
+    <tr style="background:rgba(212,165,116,0.06)">
+      <td>37粒子 (1+4+20+12)</td>
+      <td>37</td>
+      <td>r₁=1.295, r₂=2.632, r₃=4.053</td>
+      <td>−108.52</td>
+      <td>−2.933</td>
+      <td>1.295</td>
+    </tr>
+    <tr style="background:rgba(201,123,123,0.08)">
+      <td><strong>49粒子 切頂四面体殻</strong></td>
+      <td>49</td>
+      <td>r₁=1.286, r₂=2.536, r=4.036, r₄=4.500</td>
+      <td>−138.14</td>
+      <td>−2.819</td>
+      <td>1.250</td>
+    </tr>
+    <tr style="background:rgba(126,184,162,0.08)">
+      <td><strong>49粒子 立方八面体殻</strong></td>
+      <td>49</td>
+      <td>r₁=1.286, r₂=2.643, r₃=4.143, r₄=5.071</td>
+      <td>−161.08</td>
+      <td>−3.287</td>
+      <td>1.286</td>
+    </tr>
+    <tr>
+      <td>55粒子 Mackay二十面体</td>
+      <td>55</td>
+      <td>r₁=1.737, r₂=3.342</td>
+      <td>−157.36</td>
+      <td>−2.861</td>
+      <td>1.605</td>
+    </tr>
+    <tr style="background:rgba(74,144,217,0.08)">
+      <td><strong>ダイヤモンド体材（参照）</strong></td>
+      <td>8</td>
+      <td>a = 3.567 Å</td>
+      <td>−30.47</td>
+      <td>−3.809</td>
+      <td>1.545</td>
+    </tr>
+  </table>
+
+  <h3>LJ vs Tersoff の比較</h3>
+
+  <figure>
+    <img src="tersoff_cluster_final.png" alt="LJとTersoffのクラスターエネルギー比較">
+    <figcaption>図1：Lennard-JonesとTersoff（炭素）での1粒子あたりエネルギー比較。<br>
+    LJでは49粒子（切頂四面体）が37粒子を改善するが、Tersoffでは49粒子（立方八面体）が最も改善する。</figcaption>
+  </figure>
+</section>
+
+<hr>
+
+<!-- Section 3: 重要な発見 -->
+<section>
+  <span class="section-number">03</span>
+  <h2>重要な発見</h2>
+
+  <div class="verdict verdict-negative">
+    <span class="verdict-label">発見1</span>
+    <div>
+      <strong>LJとTersoffで定性的に異なる結果</strong><br>
+      LJ：49粒子（切頂四面体）が37粒子を約23%改善<br>
+      Tersoff：49粒子（切頂四面体）が37粒子を約3.9%悪化（−2.933 → −2.819）<br>
+      → 方向性結合が「四面体対称性の自然な拡張」という予言に挑戦を与える
+    </div>
+  </div>
+
+  <div class="verdict verdict-positive">
+    <span class="verdict-label">発見2</span>
+    <div>
+      <strong>Tersoffでは49粒子（立方八面体殻）が最大の改善を示す</strong><br>
+      37粒子 → 49粒子（立方八面体）：E/N = −2.933 → −3.287（約12.1%改善）<br>
+      立方八面体殻は、切頂四面体殻よりも約16.7%安定<br>
+      → 炭素では「高対称性の球状殻」が「四面体対称性の拡張」より有利
+    </div>
+  </div>
+
+  <div class="verdict verdict-caution">
+    <span class="verdict-label">発見3</span>
+    <div>
+      <strong>55粒子Mackay二十面体はダイヤモンド体材より高エネルギー</strong><br>
+      Mackay 55: E/N = −2.861 eV vs ダイヤモンド: −3.809 eV<br>
+      クラスターの表面効果により、体材より高エネルギーになるのは当然<br>
+      しかし、49粒子（立方八面体）が Mackay 55 よりも低エネルギー（−3.287 vs −2.861）は注目に値する
+    </div>
+  </div>
+
+  <div class="verdict verdict-caution">
+    <span class="verdict-label">発見4</span>
+    <div>
+      <strong>ダイヤモンド体材（−3.809 eV）が全クラスター中最低エネルギー</strong><br>
+      49粒子（立方八面体）の −3.287 eV でも、体材の約86%に留まる<br>
+      → クラスー構造は体材の結合エネルギーを完全には再現できない<br>
+      これは殻モデルの人工的な制約（各殻が完全な多面体対称性を保つ）によるもの
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 4: 考察 -->
+<section>
+  <span class="section-number">04</span>
+  <h2>考察：TTT理論への含意</h2>
+
+  <h3>「四面体対称性の拡張」予言の検証結果</h3>
+
+  <p>
+    TTT理論の核心予言の一つは、「37粒子の次の殻として切頂四面体（12頂点）が
+    特別な安定性を持つ」というものでした。Lennard-Jones計算ではこの予言が支持されましたが、
+    炭素特化のTersoffポテンシャルでは、切頂四面体殻よりも立方八面体殻の方が
+    約16.7%安定であることが判明しました。
+  </p>
+
+  <p>
+    これはTTT理論を否定するものではありません。むしろ、以下の重要な示唆を与えます。
+  </p>
+
+  <div class="card">
+    <div class="card-title">方向性結合の効果</div>
+    <p style="margin-bottom:0">
+      Lennard-Jonesポテンシャルは中心力場で、多面体の「形」だけがエネルギーを決める。<br>
+      Tersoffポテンシャルは結合角項 g(θ) を持ち、sp³角109.47°に極めて鋭い最小値がある。<br><br>
+      切頂四面体殻は正四面体対称性（Td）を継承するが、立方八面体殻はより高い対称性（Oh）を持つ。<br>
+      炭素では「高対称性の球状配置」が「四面体対称性の階層的拡張」よりエネルギー的に有利。<br><br>
+      これは、TTT理論が「幾何学的階層性」を重視する一方で、
+      実際の炭素クラスターは「表面エネルギー最小化」の観点から
+      より球状に近い構造を好むことを示している。
+    </p>
+  </div>
+
+  <h3>殻モデルの限界</h3>
+
+  <p>
+    本計算では各殻の粒子が完全な多面体対称性を保つという人工的な制約を課しました。
+    実際のクラスターでは、以下のような緩和が起こる可能性があります。
+  </p>
+
+  <ul>
+    <li><strong>殻の歪み</strong>：最外殻の粒子が球状に再配置することで表面エネルギーを最小化</li>
+    <li><strong>再構成</strong>：37粒子の内殻構造が、49粒子の追加により再配列する</li>
+    <li><strong>sp²/sp³混成</strong>：最外殻の粒子がグラファイト様のsp²配位を取る</li>
+  </ul>
+
+  <p>
+    これらの効果を含めるためには、殻モデルの制約を外した完全な構造最適化（全原子の座標を自由に変化させる）が必要です。
+  </p>
+
+  <h3>TTT理論の修正可能性</h3>
+
+  <p>
+    TTT理論の「37+12」予言は、LJ系では支持されるが、炭素系では立方八面体殻がより安定
+    これを理論の「反証」と見るか、「発展の機会」と見るかは、理論の枠組みの柔軟性にかかっています。
+  </p>
+
+  <div class="highlight-box">
+    <div class="highlight-box-title">修正可能な解釈</div>
+    <p style="margin-bottom:0">
+      TTT理論の核心は「幾何学的階層性」であり、「切頂四面体が唯一の正解」ではない。<br>
+      37粒子の次の殻として「12子の多面体」が追加されるという予言は、<br>
+      切頂四面体でも立方八面体でも実現する。<br><br>
+      重要なのは「12 = 正二十面体の頂点数 = C60の五角形数」というトポロジー的対応であり、<br>
+      その具体的な多面体形状はポテンシャルに依存する。<br><br>
+      LJ系では切頂四面体が選ばれ、Tersoff系では立方八面体が選ばれる。<br>
+      これは「ポテンシャルが幾何学を選択する」という翻訳機の役割を示している。
+    </p>
+  </div>
+</section>
+
+<hr>
+
+<!-- Section 5: 結論 -->
+<section>
+  <span class="section-number">05</span>
+  <h2>結論</h2>
+
+  <p>
+    炭素特化Tersoffポテンシャルでのクラスター最適化により、
+    Lennard-Jones計算とは定性的に異なる結果が得られました。
+    49粒子（切頂四面体殻）は37粒子よりエネルギーが悪化す一方、
+    49粒子（立方八面体殻）は約12%改善を示しました。
+  </p>
+
+  <p>
+    この結果は、TTT理論の「37+12」予言が「ポテンシャルに依存する」ことを示しています。
+    Lennard-Jones系では四面体対称性の拡張が選ばれるが、
+    炭素のような方向性結合を持つ系では、より高対称性の球状殻が選ばれる。
+  </p>
+
+  <p>
+    理論の核心である「幾何学的階層性」自体は揺るぎません。
+    37粒子に12粒子の殻が追加されるという予言は、
+    切頂四面体でも立方八面体でも実現します。
+    重要なのは「12」というトポロジー的数であり、
+    その具体的な実現形態は「翻訳機」（ポテンシャル）の選択に委ねられる。
+  </p>
+
+  <div class="card">
+    <div class="card-title">次のステップ</div>
+    <p style="margin-bottom:0">
+      1. <strong>完全構造最適化</strong>：殻モデルの制約を外し、全原子の座標を自由に最適化する<br>
+      2. <strong>sp²/sp³混成の効果</strong>：最外殻の粒子がグラファイト様配位を取る場合のエネルギーを評価する<br>
+      3. <strong>Goldberg-Coxeter系列との接続</strong>：C60, C240とのエネルギー比較で、
+      37殻構造がフラーレン系列の中でどの位置づけにあるかを探る
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>ポテンシャルが幾何学を選択する。翻訳機の役割を理解すれば、理論はさらに深化する。</p>
+</footer>
+
+</body>
+</html>
