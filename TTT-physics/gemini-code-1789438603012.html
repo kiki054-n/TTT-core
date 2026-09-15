@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>TTT-CORE BCC×HCP 結晶重合 & 質量拘束 8段階シミュレーター</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #030611;
+      color: #fff;
+    }
+    #ui {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 10;
+      background: rgba(10, 16, 35, 0.92);
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(112, 214, 255, 0.35);
+      max-width: 420px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      font-size: 15px;
+      margin: 0 0 10px 0;
+      color: #70d6ff;
+      letter-spacing: 1px;
+    }
+    p {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #cbd5e1;
+      margin: 0 0 12px 0;
+      min-height: 55px;
+    }
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    button {
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      padding: 7px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 10.5px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+    }
+    button:hover {
+      border-color: #70d6ff;
+      color: #70d6ff;
+    }
+    button.active {
+      background: #70d6ff;
+      color: #030611;
+      border-color: #70d6ff;
+      box-shadow: 0 0 10px rgba(112, 214, 255, 0.5);
+    }
+    .stats {
+      font-family: monospace;
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 10px;
+      border-radius: 6px;
+      border-left: 3px solid #70d6ff;
+      line-height: 1.5;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 10px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 3px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="ui">
+    <h1>TTT-CORE BCC×HCP 空間重合モデル</h1>
+    <div class="btn-grid">
+      <button id="b1" class="active" onclick="setPhase(1)">① Z面歪み</button>
+      <button id="b2" onclick="setPhase(2)">② OOπO 結び目</button>
+      <button id="b3" onclick="setPhase(3)">③ 125 コア格子</button>
+      <button id="b4" onclick="setPhase(4)">④ 162 質量拘束</button>
+      <button id="b5" onclick="setPhase(5)">⑤ 216 (6x6x6) 殻拡張</button>
+      <button id="b6" onclick="setPhase(6)">⑥ 343 (7x7x7) 拡張</button>
+      <button id="b7" onclick="setPhase(7)">⑦ BCC (体心) 創発</button>
+      <button id="b8" onclick="setPhase(8)">⑧ BCC × HCP 稠密重なり</button>
+    </div>
+    <p id="desc">初期状態</p>
+    <div class="stats" id="stats">初期化中...</div>
+    <div class="legend">
+      <span><span class="dot" style="background:#00f0ff;"></span> 立方格子</span>
+      <span><span class="dot" style="background:#ff3366;"></span> 溢れ質量</span>
+      <span><span class="dot" style="background:#ffd166;"></span> BCC(体心)</span>
+      <span><span class="dot" style="background:#a78bfa;"></span> HCP(六方)</span>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <script>
+    let scene, camera, renderer, controls;
+    let currentPhase = 1;
+    let time = 0;
+
+    let zPlane, ringsGroup, coreShaft;
+    let polePlus, poleMinus;
+
+    // 各格子・粒子グループ
+    let p343Group, pBccGroup, pHcpGroup, pOverflowGroup;
+    let p343List = [], pBccList = [], pHcpList = [], pOverflowList = [];
+
+    const DESCS = {
+      1: "① Z=0面を境にX軸方向へ正負双極が開裂し、境界に歪みエネルギーが蓄積されます。",
+      2: "② 光速回転により位相が閉鎖。3本リングと極軸(OOπO)による「物質の卵」が自転します。",
+      3: "③ 空間セルが T5 段階 (5×5×5 = 125マス) へと拡張し、波動エネルギーを満たします。",
+      4: "④ 162粒子へ増殖。125を超えた「37」の粒子が溢れ出し、質量拘束(ρ_M = 0.296)が発生。",
+      5: "⑤ 空間が 6×6×6 = 216 へ拡張。91個の新規シェル格子が創発し質量拘束が重層化。",
+      6: "⑥ 空間が 7×7×7 = 343 へ到達。VPB=7空間基底を網羅する最大立方格子が完成。",
+      7: "⑦ 【BCC 体心立方創発】343頂点格子の各セル中心へ「216個」の体心粒子が挿入 (計 559 粒子)。",
+      8: "⑧ 【BCC × HCP 稠密重なり】(111)対角面へ「128個」の六方最密幾何ノードが交差貫入。計 687 粒子の完全結晶相が完成。"
+    };
+
+    function init() {
+      scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x030611, 0.01);
+
+      camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(18, 14, 24);
+
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      document.body.appendChild(renderer.domElement);
+
+      controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+      const l1 = new THREE.DirectionalLight(0x70d6ff, 0.9);
+      l1.position.set(15, 25, 18);
+      scene.add(l1);
+      const l2 = new THREE.DirectionalLight(0xff3366, 0.6);
+      l2.position.set(-15, -25, -18);
+      scene.add(l2);
+
+      buildObjects();
+      window.addEventListener('resize', onWindowResize);
+      animate();
+    }
+
+    function buildObjects() {
+      // 1. Z=0 平面
+      const planeGeo = new THREE.PlaneGeometry(20, 20, 24, 24);
+      const planeMat = new THREE.MeshBasicMaterial({ color: 0x1e293b, wireframe: true, transparent: true, opacity: 0.3 });
+      zPlane = new THREE.Mesh(planeGeo, planeMat);
+      zPlane.rotation.x = Math.PI / 2;
+      scene.add(zPlane);
+
+      // 2. 双極
+      const spGeo = new THREE.SphereGeometry(0.35, 32, 32);
+      polePlus = new THREE.Mesh(spGeo, new THREE.MeshStandardMaterial({ color: 0xff3366, emissive: 0x550011 }));
+      poleMinus = new THREE.Mesh(spGeo, new THREE.MeshStandardMaterial({ color: 0x70d6ff, emissive: 0x002255 }));
+      scene.add(polePlus, poleMinus);
+
+      // 3. OOπO 光速リング
+      ringsGroup = new THREE.Group();
+      const ringGeo = new THREE.TorusGeometry(2.2, 0.04, 16, 100);
+      const rx = new THREE.Mesh(ringGeo, new THREE.MeshStandardMaterial({ color: 0xff3366 }));
+      const ry = new THREE.Mesh(ringGeo, new THREE.MeshStandardMaterial({ color: 0x33ff77 }));
+      ry.rotation.x = Math.PI / 2;
+      const rz = new THREE.Mesh(ringGeo, new THREE.MeshStandardMaterial({ color: 0x70d6ff }));
+      rz.rotation.y = Math.PI / 2;
+      ringsGroup.add(rx, ry, rz);
+
+      const shaftGeo = new THREE.CylinderGeometry(0.06, 0.06, 5, 16);
+      coreShaft = new THREE.Mesh(shaftGeo, new THREE.MeshStandardMaterial({ color: 0xffd166, emissive: 0x443300 }));
+      ringsGroup.add(coreShaft);
+      scene.add(ringsGroup);
+
+      // グループ生成
+      p343Group = new THREE.Group();
+      pBccGroup = new THREE.Group();
+      pHcpGroup = new THREE.Group();
+      pOverflowGroup = new THREE.Group();
+      scene.add(p343Group, pBccGroup, pHcpGroup, pOverflowGroup);
+
+      const sphereGeo = new THREE.SphereGeometry(0.11, 12, 12);
+      const mat343 = new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x003355 });
+      const matBcc = new THREE.MeshStandardMaterial({ color: 0xffd166, emissive: 0x554400 });
+      const matHcp = new THREE.MeshStandardMaterial({ color: 0xa78bfa, emissive: 0x330066 });
+      const matOver = new THREE.MeshStandardMaterial({ color: 0xff2a5f, emissive: 0x660011 });
+
+      // A. 7x7x7 = 343 立方格子頂点
+      for(let x = -3; x <= 3; x++) {
+        for(let y = -3; y <= 3; y++) {
+          for(let z = -3; z <= 3; z++) {
+            const p = new THREE.Mesh(sphereGeo, mat343);
+            const pos = new THREE.Vector3(x * 1.1, y * 1.1, z * 1.1);
+            p.position.copy(pos);
+            p343Group.add(p);
+            p343List.push({ mesh: p, base: pos, layer5: (Math.abs(x)<=2 && Math.abs(y)<=2 && Math.abs(z)<=2), layer6: (Math.abs(x)<=2.5 && Math.abs(y)<=2.5 && Math.abs(z)<=2.5) });
+          }
+        }
+      }
+
+      // B. BCC 体心 216 個 (6x6x6 セルの中心)
+      for(let x = -2.5; x <= 2.5; x += 1.0) {
+        for(let y = -2.5; y <= 2.5; y += 1.0) {
+          for(let z = -2.5; z <= 2.5; z += 1.0) {
+            const p = new THREE.Mesh(sphereGeo, matBcc);
+            const pos = new THREE.Vector3(x * 1.1, y * 1.1, z * 1.1);
+            p.position.copy(pos);
+            pBccGroup.add(p);
+            pBccList.push({ mesh: p, base: pos });
+          }
+        }
+      }
+
+      // C. HCP 稠密六方 128 ノード (対角 (111) 面の六方最密配置)
+      for(let i = 0; i < 128; i++) {
+        const p = new THREE.Mesh(sphereGeo, matHcp);
+        // 対角螺旋レイヤーの幾何配置
+        const layer = Math.floor(i / 16) - 4; // -4 to 3
+        const angle = (i % 16) * (Math.PI * 2 / 16) + (layer * 0.4);
+        const r = 1.2 + (i % 4) * 0.7;
+        const pos = new THREE.Vector3(
+          r * Math.cos(angle),
+          layer * 0.8,
+          r * Math.sin(angle)
+        );
+        p.position.copy(pos);
+        pHcpGroup.add(p);
+        pHcpList.push({ mesh: p, base: pos });
+      }
+
+      // D. 37 溢れ質量粒子
+      for(let i = 0; i < 37; i++) {
+        const p = new THREE.Mesh(sphereGeo, matOver);
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos((Math.random() * 2) - 1);
+        const r = 3.6 + Math.random() * 0.5;
+        p.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
+        pOverflowGroup.add(p);
+        pOverflowList.push(p);
+      }
+
+      setPhase(1);
+    }
+
+    function setPhase(phase) {
+      currentPhase = phase;
+      for(let i=1; i<=8; i++) {
+        document.getElementById(`b${i}`).classList.toggle('active', i === phase);
+      }
+      document.getElementById('desc').innerText = DESCS[phase];
+
+      const stats = document.getElementById('stats');
+      if (phase === 1) {
+        stats.innerHTML = "総粒子数: <b>0</b><br>立方格子: 0<br>BCC体心: 0 | HCP六方: 0";
+      } else if (phase === 2) {
+        stats.innerHTML = "総粒子数: <b>1</b> (OOπO 旋回核)<br>立方格子: 0<br>BCC体心: 0 | HCP六方: 0";
+      } else if (phase === 3) {
+        stats.innerHTML = "総粒子数: <b>125</b> (5³ コア波動)<br>立方格子: 125 / 125 (100%)<br>質量拘束(溢れ): 0";
+      } else if (phase === 4) {
+        stats.innerHTML = "総粒子数: <b>162</b> (空間飽和発生)<br>立方格子: 125 / 125<br><b style='color:#ff3366;'>質量拘束(溢れ): 37 (ρ_M = 0.296)</b>";
+      } else if (phase === 5) {
+        stats.innerHTML = "総粒子数: <b>253</b> (6³ 殻拡張)<br>立方格子: 216 / 216 (91シェル創発)<br><b style='color:#ff3366;'>累積質量拘束: 128 (37 + 91 シェル)</b>";
+      } else if (phase === 6) {
+        stats.innerHTML = "総粒子数: <b>343</b> (7³ VPB基底格子)<br>立方格子: 343 / 343 (100%)<br>BCC体心: 0 | HCP六方: 0";
+      } else if (phase === 7) {
+        stats.innerHTML = "<b style='color:#ffd166;'>総粒子数: 559 (BCC 体心創発)</b><br>立方格子: 343<br><b style='color:#ffd166;'>BCC体心ノード: 216 (6³ セル中心)</b>";
+      } else if (phase === 8) {
+        stats.innerHTML = "<b style='color:#a78bfa;'>総粒子数: 687 (BCC × HCP 完全結晶重合)</b><br>立方格子: 343 | BCC体心: 216<br><b style='color:#a78bfa;'>HCP(六方最密)ノード: 128 (2⁷ 幾何貫入)</b>";
+      }
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.03;
+
+      // 双極の動作
+      const d = currentPhase >= 1 ? 1.5 + Math.sin(time * 2) * 0.8 : 0.2;
+      polePlus.position.x = d;
+      poleMinus.position.x = -d;
+
+      // Z面波打ち
+      const pos = zPlane.geometry.attributes.position;
+      for (let i = 0; i < pos.count; i++) {
+        const u = pos.getX(i), v = pos.getY(i);
+        pos.setZ(i, Math.sin(u * 1.5 + time) * Math.cos(v * 1.5 + time) * (currentPhase === 1 ? 0.35 : 0.05));
+      }
+      zPlane.geometry.attributes.position.needsUpdate = true;
+
+      // OOπO
+      ringsGroup.visible = currentPhase >= 2;
+      if (ringsGroup.visible) {
+        ringsGroup.rotation.x += 0.04;
+        ringsGroup.rotation.y += 0.06;
+        coreShaft.rotation.z += 0.1;
+      }
+
+      // 343 格子表示制御
+      p343List.forEach((item, idx) => {
+        let vis = false;
+        if (currentPhase === 3 || currentPhase === 4) vis = item.layer5;
+        else if (currentPhase === 5) vis = item.layer6;
+        else if (currentPhase >= 6) vis = true;
+
+        item.mesh.visible = vis;
+        if (vis) {
+          item.mesh.position.x = item.base.x + Math.sin(time * 3 + idx) * 0.02;
+          item.mesh.position.y = item.base.y + Math.cos(time * 3 + idx) * 0.02;
+        }
+      });
+
+      // 37 溢れ粒子
+      pOverflowList.forEach(p => {
+        p.visible = currentPhase === 4;
+      });
+
+      // BCC 体心 (216)
+      pBccList.forEach((item, idx) => {
+        const vis = currentPhase >= 7;
+        item.mesh.visible = vis;
+        if (vis) {
+          item.mesh.position.x = item.base.x + Math.sin(time * 4 + idx) * 0.015;
+          item.mesh.position.y = item.base.y + Math.cos(time * 4 + idx) * 0.015;
+        }
+      });
+
+      // HCP 六方 (128)
+      pHcpList.forEach((item, idx) => {
+        const vis = currentPhase === 8;
+        item.mesh.visible = vis;
+        if (vis) {
+          item.mesh.position.x = item.base.x + Math.sin(time * 5 + idx) * 0.01;
+          item.mesh.position.z = item.base.z + Math.cos(time * 5 + idx) * 0.01;
+        }
+      });
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
