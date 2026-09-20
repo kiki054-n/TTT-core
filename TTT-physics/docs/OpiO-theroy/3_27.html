@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3³ = 27 の幾何学的・代数的必然性の証明</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #181b24;
+  --surface-raised: #1e2230;
+  --ink: #e8e6f0;
+  --muted: #8b92a8;
+  --accent: #e6a75c;
+  --accent-weak: color-mix(in oklab, var(--accent) 15%, var(--surface));
+  --accent-strong: #f5c98c;
+  --line: color-mix(in oklab, var(--ink) 10%, transparent);
+  --step-0: clamp(0.95rem, 0.92rem + 0.2vw, 1.05rem);
+  --step-1: clamp(1.1rem, 1.05rem + 0.3vw, 1.25rem);
+  --step-2: clamp(1.35rem, 1.2rem + 0.8vw, 1.8rem);
+  --step-3: clamp(1.8rem, 1.5rem + 1.8vw, 3rem);
+  --space: clamp(1.2rem, 1rem + 1vw, 2rem);
+  --radius: 10px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.25), 0 12px 32px -8px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size: var(--step-0); line-height: 1.85; -webkit-font-smoothing: antialiased;
+}
+
+header {
+  position: relative; padding: calc(var(--space)*3) var(--space) calc(var(--space)*2);
+  max-width: 780px; margin: 0 auto; overflow: hidden;
+}
+header::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 20% 40%, rgba(230,167,92,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 40% at 80% 60%, rgba(139,146,168,0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-label {
+  font-family: "Outfit", sans-serif; font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 0.6rem; display: block;
+}
+h1 {
+  font-family: "Outfit", "Noto Sans JP", sans-serif; font-size: var(--step-3);
+  font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 0.8rem;
+}
+h1 .highlight { color: var(--accent); }
+.hero-sub { color: var(--muted); font-size: var(--step-1); max-width: 60ch; line-height: 1.7; }
+
+main { max-width: 780px; margin: 0 auto; padding: 0 var(--space) calc(var(--space)*3); }
+section { margin-bottom: calc(var(--space)*2.2); }
+h2 {
+  font-family: "Outfit", "Noto Sans JP", sans-serif; font-size: var(--step-2); font-weight: 700;
+  color: var(--accent-strong); margin-bottom: 0.9rem; display: flex; align-items: baseline; gap: 0.6rem;
+}
+h2 .sec-num { font-family: "JetBrains Mono", monospace; font-size: 0.65em; font-weight: 400; color: var(--accent); opacity: 0.7; }
+h3 { font-family: "Outfit", "Noto Sans JP", sans-serif; font-size: var(--step-1); font-weight: 600; color: var(--ink); margin: 1.4rem 0 0.5rem; }
+p { margin-bottom: 0.9rem; max-width: 68ch; }
+
+.route-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: calc(var(--space)*1.1); margin: 1.2rem 0; box-shadow: var(--shadow); position: relative;
+}
+.route-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent); border-radius: var(--radius) var(--radius) 0 0;
+}
+.route-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.route-title { font-family: "Outfit", "Noto Sans JP", sans-serif; font-size: var(--step-1); font-weight: 700; color: var(--accent-strong); }
+.route-formula {
+  font-family: "JetBrains Mono", monospace; font-size: 0.95em; background: var(--surface-raised);
+  padding: 0.5rem 0.8rem; border-radius: 6px; display: inline-block; margin: 0.4rem 0 0.8rem; color: var(--accent); border: 1px solid var(--line);
+}
+
+.proposal-box {
+  background: linear-gradient(135deg, var(--surface-raised) 0%, var(--surface) 100%);
+  border-left: 3px solid var(--accent); padding: calc(var(--space)*0.9) calc(var(--space)*1.1);
+  margin: 1.4rem 0; border-radius: 0 var(--radius) var(--radius) 0; font-size: 0.97em;
+}
+.proposal-box p:last-child { margin-bottom: 0; }
+ul, ol { margin: 0.6rem 0 1rem 1.4rem; }
+li { margin-bottom: 0.35rem; }
+code, .mono {
+  font-family: "JetBrains Mono", monospace; font-size: 0.92em; background: var(--surface-raised);
+  padding: 0.1rem 0.35rem; border-radius: 4px; color: var(--accent-strong);
+}
+hr { border: none; height: 1px; background: var(--line); margin: calc(var(--space)*1.8) 0; }
+footer { text-align: center; color: var(--muted); font-size: 0.85em; padding: calc(var(--space)*1.5) var(--space); border-top: 1px solid var(--line); max-width: 780px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="hero-label">OπO Theory / Derivation Appendix</span>
+  <h1>$3^3 = 27$ の<br><span class="highlight">幾何学的・代数的必然性の証明</span></h1>
+  <p class="hero-sub">
+    虚数作用による軸巡回と、XYZ空間・FBI作用空間のテンソル積から導かれる、$2^{27}$ の指数部を構成する「完全独立な幾何学的最小ユニット数」の導出プロセス。
+  </p>
+</header>
+
+<main>
+
+<section>
+  <h2><span class="sec-num">§1</span> 虚数作用による軸巡回と $C_3$ 対称性</h2>
+  <div class="proposal-box">
+    <p><strong>基本公理：</strong>軸は虚数 $i$ の乗算によって次々と直交方向へ変換される。</p>
+  </div>
+  <p>
+    $X$ 軸に虚数 $i$ を乗算することで $Y$ 軸になり、さらに $i$ を乗算することで $Z$ 軸になるという関係は、
+    複素平面における直交回転（位相シフト）の3次元拡張とみなせる。
+  </p>
+  <ul>
+    <li>空間幾何自由度： $X \xrightarrow{\times i} Y \xrightarrow{\times i} Z \xrightarrow{\times i} X$</li>
+    <li>作用自由度： $F \xrightarrow{\times i} B \xrightarrow{\times i} I \xrightarrow{\times i} F$</li>
+  </ul>
+  <p>
+    この軸変換が閉じる運動は、3次の巡回群（$C_3$ 対称性）を形成する。これは OOO モデルの根幹である「3つのリングによる独立回転」の代数的な発現に他ならない。
+  </p>
+</section>
+
+<section>
+  <h2><span class="sec-num">§2</span> 3次元空間における同時観測（テンソル積構造）</h2>
+  <div class="route-card">
+    <div class="route-header">
+      <span class="route-title">3階テンソルによる完全独立ユニットの構成</span>
+    </div>
+    <div class="route-formula">Dim(V) = 3(空間) × 3(作用) × 3(位相) = 3³ = 27</div>
+
+    <p>
+      2組の3つ組系 $(X, Y, Z)$ と $(F, B, I)$、そしてそれらを結合する巡回変換の位相系を「3次元で同時に見る」という操作は、数学的には<strong>3つの独立な3次元表現空間のテンソル積</strong>の構成を意味する。
+    </p>
+    <ol>
+      <li><strong>第1次元（空間方向）：</strong> $X, Y, Z$ の 3自由度</li>
+      <li><strong>第2次元（作用方向）：</strong> $F, B, I$ の 3自由度</li>
+      <li><strong>第3次元（位相/回転軸）：</strong> 虚数作用による3つの独立な回転面・位相</li>
+    </ol>
+    <p>
+      これらを同時に観測する最小の幾何学的空間の基底数は一義的に $3^3 = 27$ となる。これは、空間・作用・位相がすべて互いに直交して張り巡らされた<strong>27個の基本セル（3次元立体格子）</strong>としての幾何学的必然性を持つ。
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec-num">§3</span> ホログラフィック拘束条件の意味</h2>
+  <div class="route-card">
+    <div class="route-header">
+      <span class="route-title">規準化条件と境界閉包</span>
+    </div>
+    <div class="route-formula">XYZ\pi = 1 \quad , \quad FBI\pi = 1</div>
+    
+    <p>
+      積に関するこの拘束条件は、代数的に拡大した27自由度の空間を現実の3次元物理空間へ射影・規格化するためのホログラフィックな条件として機能する。
+    </p>
+    <ul>
+      <li>$XYZ = \frac{1}{\pi}$ は、直交3軸の積で表される<strong>立方体的な体積自由度</strong>が、球的・曲率的な位相境界（$\pi$）によって幾何学的に閉じている（全空間として1に規格化される）ことを示す。</li>
+      <li>これにより、自由度27の系が発散せず、$27$という定数としてスピノル被覆度の変換（$2^{27}$ へのスケーリング）を固定する定常条件となる。</li>
+    </ul>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <h2><span class="sec-num">§4</span> 証明の定理化（結論）</h2>
+  <div class="proposal-box">
+    <p><strong>【定理：格子間隔スケーリングの代数的導出】</strong></p>
+    <p>
+      3次元空間における物理状態の完全な記述は、空間位置 $(X,Y,Z)$、共役作用 $(F,B,I)$、および変換位相の3つの独立な $C_3$ 巡回代数（次元 $3$）のテンソル積に依存する。<br><br>
+      したがって、これらを同時観測可能な最小合成状態空間の次元は $3 \otimes 3 \otimes 3 = 27$ となる。<br><br>
+      $SU(2) \to SO(3)$ の被覆度 $2$ の場において、この $27$ の自由度が指数積層されることで、プランク長からの格子間隔スケーリング因子 $2^{(3^3)} = 2^{27}$ が幾何学・代数学的必然として要請される。
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>2026-09-21 · 3³ = 27 の幾何学的・代数的必然性の証明 · OπO理論検証記録 付属資料</p>
+</footer>
+
+</body>
+</html>
