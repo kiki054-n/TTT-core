@@ -6,6 +6,8 @@
 
 * [`Axiomatization of 6-Dimensional Equations (First Edition).md`](./Axiomatization%20of%206-Dimensional%20Equations%20%28First%20Edition%29.md) → 6次元空間 $S = \mathbb{R}_r^3 \times \mathbb{R}_u^3$ の公理化（第1版）。四元数との対応、黄金比の導出まで
 * [`geometry_and_solution_space.md`](./geometry_and_solution_space.md) → 正多面体5種の必然性（TTTの生成過程をCoxeter群で読む）。5節でn角双錘の頂点数公式 $V(n) = n+2$ を追加（[TTT-physics/fine_structure_derivation.md](../TTT-physics/fine_structure_derivation.md) 7.9節から参照される）
+* [`xyz_fbi_rst_relations.md`](./xyz_fbi_rst_relations.md) → XYZ（位置）・FBI（力）・RST（回転）の関係式。6次元（並進＋回転の仕事）・9次元（双極の差 ±2）・27次元（3⊗3⊗3、唯一の不変量 (X×F)·R）・時間発展・四元数 (1+i+j+k)/2。検証スクリプト [`xyz_fbi_rst_check.py`](./xyz_fbi_rst_check.py)（18 PASS）
+* [`TTT_9dim_27dim_equations.md`](./TTT_9dim_27dim_equations.md) → 6・9・27次元方程式の旧記録（考え始めた段階の式。直した形は上の `xyz_fbi_rst_relations.md`）
 * [`golden_ratio_proofs.md`](./golden_ratio_proofs.md) → 黄金比の一意性（純粋数学版）。自己相似性・連分数・フィボナッチ極限・正二十面体対称性・最適化・固定点方程式・代数的性質の7通りの独立な導出
 * [`golden_ratio_from_6d_equation.md`](./golden_ratio_from_6d_equation.md) → 6次元方程式からの黄金比導出（厳密化後）
 * [`fibonacci_and_6d_equation.md`](./fibonacci_and_6d_equation.md) → フィボナッチ数列と6次元方程式の収束定理
