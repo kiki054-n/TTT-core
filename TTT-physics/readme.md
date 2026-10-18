@@ -6,6 +6,10 @@
 
 **[`INDEX.md`](./INDEX.md)** — 公理系・ファイルマップ・全導出結果とCODATA/PDG観測値との比較表をまとめた総合インデックス。このリポジトリを読む最初の1本です。
 
+## 論点整理
+
+* [`gravity_as_relation_not_force.md`](./docs/gravity_as_relation_not_force.md) — 「引力は存在しなかった」という表現を、観測される重力現象、一般相対論の幾何学的記述、「1」から始める思考へのTTT的な批判に分けて整理。前二者の確立度と後二者の仮説性を区別。
+
 ## 導出ドキュメント
 
 * [`fine_structure_derivation.md`](./fine_structure_derivation.md) → Alpha-V4：微細構造定数 $1/\alpha$ の級数を公理から導出
