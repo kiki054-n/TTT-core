@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 cd "$(dirname "$0")"
-for s in thirtyfour one37_twelve inside_outside f_emergence f_saturation force_twist_alpha flow_summary energy_tetra cluster_hex genesis_center; do
+for s in thirtyfour one37_twelve inside_outside f_emergence f_saturation force_twist_alpha flow_summary energy_tetra cluster_hex genesis_center rotation_checker; do
   echo "### $s"
   if [ -f "scripts/$s.py" ]; then python3 "scripts/$s.py"; else python3 "$s.py"; fi | tail -1
 done
