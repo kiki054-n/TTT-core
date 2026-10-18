@@ -95,6 +95,10 @@ TTTの今後のモデル化では、単一の「観測者」を点として置�
 4. 小世界性はクラスタリングと経路長の比較で、スケールフリー性は次数分布への統計的適合と代替分布との比較で別々に評価する。
 5. 予測を作る場合は、既存の標準モデルとの差、失敗条件、再現に必要なデータを先に書く。
 
+## 関連文書
+
+* [TTTの概念から考えるAI設計](./ai_design_principles.md)
+* [「意識が現実を確定させる」命題の論理的展開](./consciousness_and_reality_proposition.md)
 ## 参考文献
 
 * Zurek, W. H. (2003). Decoherence, einselection, and the quantum origins of the classical. *Reviews of Modern Physics*, 75, 715–775. https://doi.org/10.1103/RevModPhys.75.715
