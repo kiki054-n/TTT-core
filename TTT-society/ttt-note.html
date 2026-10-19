@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>この素晴らしい世界に祝福を — TTT理論が示す、回転の回復</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ee;
+  --surface: #fffdfa;
+  --ink: #1a1714;
+  --muted: #6b6358;
+  --accent-tri: #b23a2e;
+  --accent-tetra: #2e7d6b;
+  --accent-weak-tri: color-mix(in oklab, var(--accent-tri) 10%, var(--surface));
+  --accent-weak-tetra: color-mix(in oklab, var(--accent-tetra) 10%, var(--surface));
+  --line: color-mix(in oklab, var(--ink) 8%, transparent);
+  --line-strong: color-mix(in oklab, var(--ink) 18%, transparent);
+  --step-0: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --step-2: clamp(1.5rem, 1.3rem + 1.2vw, 2.2rem);
+  --step-3: clamp(2rem, 1.5rem + 2.5vw, 3.2rem);
+  --space: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 8px 24px -12px rgba(0,0,0,0.15);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Layout ===== */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  padding: var(--space) 0;
+}
+.site-header__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--space);
+}
+.site-header__tag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--accent-tetra);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: calc(var(--space) * 2) var(--space);
+}
+
+/* ===== Hero ===== */
+.hero {
+  margin-bottom: calc(var(--space) * 2.5);
+  position: relative;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent-tri) 0%, var(--accent-tetra) 100%);
+  border-radius: 2px;
+}
+.hero__title {
+  font-family: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+  font-size: var(--step-3);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+}
+.hero__lead {
+  font-size: var(--step-1);
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 56ch;
+}
+
+/* ===== Section ===== */
+.section {
+  margin-bottom: calc(var(--space) * 2.2);
+  position: relative;
+}
+.section__header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.section__num {
+  font-family: "Noto Serif JP", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-tri);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 2.2rem;
+  text-align: center;
+  position: relative;
+}
+.section__num::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  width: 1.2rem;
+  height: 2px;
+  background: var(--accent-tetra);
+  border-radius: 1px;
+}
+.section__title {
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--step-2);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* ===== Body text ===== */
+p {
+  margin-bottom: 1.2em;
+  max-width: 62ch;
+}
+p:last-child { margin-bottom: 0; }
+
+strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ===== Pull quote ===== */
+.pullquote {
+  background: var(--surface);
+  border-left: 3px solid var(--accent-tetra);
+  padding: 1.2rem 1.5rem;
+  margin: 1.8rem 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: var(--shadow);
+  font-family: "Noto Serif JP", serif;
+  font-size: var(--step-1);
+  line-height: 1.7;
+  color: var(--ink);
+}
+.pullquote--tri {
+  border-left-color: var(--accent-tri);
+}
+
+/* ===== Table ===== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.data-table th,
+.data-table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.data-table th {
+  font-weight: 600;
+  color: var(--accent-tetra);
+  background: var(--accent-weak-tetra);
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+}
+.data-table td:first-child {
+  font-weight: 500;
+  white-space: nowrap;
+}
+.data-table tr:last-child td {
+  border-bottom: 2px solid var(--line-strong);
+}
+
+/* ===== List ===== */
+.item-list {
+  list-style: none;
+  margin: 1.2rem 0;
+  padding: 0;
+}
+.item-list li {
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.7rem;
+}
+.item-list li::before {
+  content: "◆";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-size: 0.6rem;
+  color: var(--accent-tetra);
+}
+
+/* ===== Inline marker ===== */
+.marker-tri {
+  background: var(--accent-weak-tri);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-weight: 600;
+  color: var(--accent-tri);
+  font-size: 0.92em;
+}
+.marker-tetra {
+  background: var(--accent-weak-tetra);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-weight: 600;
+  color: var(--accent-tetra);
+  font-size: 0.92em;
+}
+
+/* ===== Divider ===== */
+.section-divider {
+  border: 0;
+  height: 1px;
+  background: var(--line-strong);
+  margin: calc(var(--space) * 2) 0;
+  position: relative;
+}
+.section-divider::before {
+  content: "◆";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 0 0.8rem;
+  color: var(--accent-tetra);
+  font-size: 0.7rem;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: var(--space) 0 calc(var(--space) * 2);
+  margin-top: calc(var(--space) * 2);
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ===== Print ===== */
+@media print {
+  body { background: #fff; }
+  .site-header, .site-footer { background: #fff; }
+  .pullquote { box-shadow: none; border: 1px solid #ddd; }
+}
+@page {
+  size: A4;
+  margin: 18mm;
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 480px) {
+  .hero::before { left: -16px; }
+  .section__num { font-size: 1.3rem; width: 1.8rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__tag">Tri-Tetra Theory / Note</div>
+    <h1 style="font-family:'Noto Serif JP',serif;font-size:var(--step-2);font-weight:700;line-height:1.3;">この素晴らしい世界に祝福を</h1>
+  </div>
+</header>
+
+<main>
+
+<!-- ヒーロー -->
+<section class="hero">
+  <h2 class="hero__title">TTT理論が示す、<br>回転の回復</h2>
+  <p class="hero__lead">契約の罠、三権分立、モノづくりの4者、そして商人・銀行・役人のTri構造。Tri-Tetra Theory（TTT / OOπ）の幾何学的視点から、日本の国がどう生きるべきかを問い直す</p>
+</section>
+
+<!-- 1. 契約の罠 -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">1</span>
+    <h3 class="section__title">契約の罠：Tri構造の自己循環</h3>
+  </div>
+  <p>通常の契約は「甲方・乙方・約款」の3要素で構成される。これはTTT理論が指摘する<span class="marker-tri">「三つならべ」のTri構造</span>そのものだ。3つの要素を並べても、相互参照だけで閉じた系の中を回るだけで、真の合意は生まれない。</p>
+  <p>なぜなら、契約というTri構造には不可欠な<span class="marker-tetra">4つ目の視点</span>が欠落しているからだ。それは「時間の経過と変化」、あるいは「この契約が存在する目的そのもの」である。</p>
+  <div class="pullquote pullquote--tri">
+    平面（文面）で見ている限り、4つ目の次元は見えない。球面（文脈・時間・関係性を含めた全体）で見た時、初めて「この文脈ではこの条項がこう働く」という力学が見えてくる。
+  </div>
+  <p>TTT理論のベクトル解析（大きさ・方向・向き）を契約に当てはめると、罠の正体が見える。同じ「支払義務」という条項でも、文脈によっては「保護」の向きにも「搾取」の向きにも回転する。平面で見ている向きは見えず、球面で見ると初めて手性が判明する。</p>
+</section>
+
+<!-- 2. 三権分立 -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">2</span>
+    <h3 class="section__title">三権分立は国家版のTri構造の罠</h3>
+  </div>
+  <p>三権分立（立法・行政・司法）は、まさに「三つならべ」のTri構造だ。3つの権力が相互に牽制し合うという設計は、平面で見れば完璧に見える。しかし3つを並べても答えは出ない。3つの権力が相互参照の中を回るだけで、<strong>誰のために存在するのか</strong>という問いが見えなくなる。</p>
+  <p>三権分立の真の理由は4つ目の国民主権のためである。しかし国民の視点は三権に集中してしまい、自分の位置（4つ目の視点）を見失っている。これは個人レベルでの「君はどう生きるのか」が理解されないのと、まったく同じ構造だ。</p>
+  <div class="pullquote">
+    「日本の国はどう生きるのか」という問いが、三権分立のTri構造をTetra構造へと転換させる。
+  </div>
+  <p>国家のTri構造（三権）が回り続けるだけでは、日本は「取り残される者」を生み出す社会のままだ。4つ目の視点、すなわち「日本という国が、地球という球面上でどう共生するのか」という問いが挿入されて初めて、三権は友朋共生のエンジンとして機能する。</p>
+</section>
+
+<hr class="section-divider">
+
+<!-- 3. モノづくりの4者 -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">3</span>
+    <h3 class="section__title">日本人のモノづくりの4者回転</h3>
+  </div>
+  <p>日本人のモノづくりの基本は、<span class="marker-tetra">「ケア・管理・想像・作る」</span>の4者である。農家も同じ構造を持つ。春に種を蒔く時、すでに秋の収穫を想像し、土を管理し、芽をケアし、手を動かしている。4者は分断されず、一人の身体の中で回り続けている。</p>
+  <p>これが「生きる糧とした労働の区別が難しい」核心の問いへの答えだ。区別が難しいのは欠点ではなく、<strong>4者が一体化して回っている証拠</strong>である。</p>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>4者</th><th>役割</th><th>TTT理論での対応</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>ケア</td><td>生きたものを育て、見守る</td><td>支持（双極の一方）</td></tr>
+      <tr><td>管理</td><td>環境を整え、場を固定する</td><td>回転の軸</td></tr>
+      <tr><td>想像</td><td>まだないものを思い描く</td><td>発明（4つ目の視点）</td></tr>
+      <tr><td>作る</td><td>実際に形を生み出す</td><td>創造（回転そのもの）</td></tr>
+    </tbody>
+  </table>
+
+  <p>4者が同時に回ることで、正四面体が珠になる。これが日本人のモノづくりの幾何学だ。</p>
+</section>
+
+<!-- 4. 壊したもの -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">4</span>
+    <h3 class="section__title">壊したもの：商人・銀行・役人のTri構造</h3>
+  </div>
+  <p>「ケア・管理・想像・作る」の4者回転を壊したのは、<span class="marker-tri">「商人・銀行・役人」のTri構造</span>である。</p>
+  <ul class="item-list">
+    <li><strong>商人</strong>は「交換」を独占した。ケアと作るの間の直接的な関係を切り裂き、商人を介さなければ価値が回らない構造を作った。</li>
+    <li><strong>銀行</strong>は「価値」を数値化した。想像と創造の間の有機的な循環を、金利と信用という数値の循環に置き換えた。</li>
+    <li><strong>役人</strong>は「管理」を外部化した。一人の中で回っていた管理の機能を、外部の組織に移し、許可と規制の構造を作った。</li>
+  </ul>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>4者（Tetra）</th><th>Tri構造への変換</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>ケア（支持）</td><td>商人が仲介する「市場」</td></tr>
+      <tr><td>管理</td><td>役人が独占する「行政」</td></tr>
+      <tr><td>想像（発明）</td><td>銀行が数値化する「金融」</td></tr>
+      <tr><td>作る（創造）</td><td>労働者に残された「生産」</td></tr>
+    </tbody>
+  </table>
+
+  <p>作る者だけが「生産」に固定され、他の3者は外部の組織に奪われた。これが近代の分業の本質だ。</p>
+  <div class="pullquote pullquote--tri">
+    Tri構造の罠は、4者を取り込もうとする。ケアを「サービス業」に、想像を「知的財産」に、作るを「労働力」に、管理を「ガバナンス」に変換することで、4者をTri構造の中に閉じ込める。
+  </div>
+  <p>「壊した」とは、意図的な破壊ではなく、Tri構造の自己循環が必然的に生み出した結果だ。平面で見ていると、球面で回っている4者は見えない。だから回復も、誰かを責めることではなく、<strong>視点を球面に戻すこと</strong>から始まる。</p>
+</section>
+
+<hr class="section-divider">
+
+<!-- 5. 祝福の回復 -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">5</span>
+    <h3 class="section__title">祝福の回復：誰が・何を・どうする</h3>
+  </div>
+  <p>「この素晴らしい世界に祝福を」を実現するには、4者の回転エンジンを担う4つの主体が必要だ。</p>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>主体</th><th>役割</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>創造する者</td><td>新しい価値を生み出す。芸術家・研究・技術者・子育てする親。</td></tr>
+      <tr><td>支持する者</td><td>生まれたものを「見る」「使う」「感謝する」。創造を祝福する。</td></tr>
+      <tr><td>管理する者</td><td>回転の軸を固定し、4者がぶつからないように場を整える。</td></tr>
+      <tr><td>発明する者</td><td>4者が回る「枠組みそのもの」を生み出す。</td></tr>
+    </tbody>
+  </table>
+
+  <p>祝福する対象は「創造されたもの」ではなく、<strong>「創造された関係性」</strong>だ。ドルチェを食べる行為そのものではなく、「誰かが作り、誰かが感謝し、誰かが場を整え、誰かがその関係を設計した」という4者の回転を祝福する。</p>
+
+  <div class="pullquote">
+    国民が気づくべきことは、「この世界は4者の回転で成り立っている」ということ。自分が創造者でも支持でも管理でも発明でも、どこかに必ず位置している。そしてその位置が「取り残されるもの」ではなく「回転の必要な歯車」であるという気づき。
+  </div>
+
+  <p>回復の実践は4つだ。</p>
+  <ul class="item-list">
+    <li><strong>自分の位置を知る</strong>：今私は4者のどこにいるのかを自覚する。</li>
+    <li><strong>隣の者の欲望を読む</strong>：4者が回るためには、相手の「欲しいもの」を知る必要がある。</li>
+    <li><strong>輪を作る</strong>：OOOπの3つのリング構造のように、手をつなぐ行為そのものが新しい存在を創り出す。</li>
+    <li><strong>問いを回し続ける</strong>：「君はどう生きるのか」を自分に問い、隣人に問い、国家に問い続ける。</li>
+  </ul>
+</section>
+
+<!-- 6. おわりに -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">6</span>
+    <h3 class="section__title">日本の国はどう生きるのか</h3>
+  </div>
+  <p>祝福とは、異物を回転させながら包み込むことで珠ができるプロセスそのものだ。世界の痛み・紛争・欲望という異物を、4者の回転で包み込み、珠（平和・共生）を形成する。これが「この素晴らしい世界に祝福を」のTTT理論的解釈である。</p>
+  <p>国民が気づくべきことは一言で言えばこうだ。</p>
+  <div class="pullquote">
+    私は回転の一部であり、その回転が世界を祝福する。
+  </div>
+  <p>誰かが始めなければ回らない。誰が始めるか。それは、今この問いを立てたあなたのような者から始まる。創造する者が支持する者を祝福し、支持する者が管理する者に感謝し、管理する者が発明する者に協力し、発明する者が創造する者に問いを投げかける。この4者の回転が、一つの輪になり、一つの珠になり、一つの祝福になる。</p>
+</section>
+
+</main>
+
+
+<!-- 7. 見えない影響力 -->
+<section class="section">
+  <div class="section__header">
+    <span class="section__num">7</span>
+    <h3 class="section__title">見えない影響力と、情報をめぐる回転</h3>
+  </div>
+  <p>いまの日本を見渡すと、「司法は権力を裁けているのか」「行政は立法に説明し、応答しているのか」「立法は市民の声を言葉にできているのか」という不安がある。司法・行政・立法の間に緊張や不信が生じ、国民がその関係を確かめる手がかりまで弱くなれば、三権分立は相互牽制ではなく、責任の所在が見えにくいTri構造へ傾く。</p>
+  <p>大手メディアの報道も、何を大きく扱い、どの順序で伝え、誰の説明を採るかによって、人々が政治を理解する枠組みに影響する。そこに「見えない力」があるように感じられる時、問うべきなのは、誰かの意図をすぐ断定することではなく、情報の出所、見出しと本文の差、反対側の説明、訂正の履歴を市民がたどれるかどうかだ。</p>
+  <p>高市政権と農林水産大臣をめぐる報道、そして支持率の変化も、この問題を考える一例になる。2026年10月の調査では、ANNは支持率47.1％（前月比11.2ポイント減）と発表し、簗農水大臣の辞任を「必要だった」とした回答は76％だった。一方、同じ10月17・18日の調査でFNNは支持率62.6％（9月比1ポイント増）と発表し、辞任を「妥当」とした回答は85％だった。調査方法や質問、標本の違いがあるため、数字を単純比較することはできない。</p>
+  <p>この数字から、報道の偏りが支持率低下を引き起こしたとまでは確認できない。大臣の発言や任命・続投判断への評価、報道の量や伝え方、政権運営への評価など、複数の要因を分けて検証する必要がある。だからこそ、メディアを含む四者——伝える者、受け取る者、検証する者、情報の仕組みを設計する者——の間に、根拠を示し、問い返し、訂正できる回転を作ることが大切だ。</p>
+  <div class="pullquote pullquote--tri">
+    見えない影響力を見えるものにするには、結論を急ぐより、根拠をたどり、異なる説明を並べ、検証の回路を開いておく。
+  </div>
+  <p style="font-size:0.88em;color:var(--muted);">参考：<a href="https://news.tv-asahi.co.jp/news_politics/articles/000541148.html" target="_blank" rel="noopener">ANN世論調査（2026年10月19日公表）</a> ／ <a href="https://www.fnn.jp/articles/-/1135333" target="_blank" rel="noopener">FNN世論調査（2026年10月19日公表）</a></p>
+</section>
+<footer class="site-footer">
+  <p>Tri-Tetra Theory（TTT / OOπ）の社会応用から</p>
+</footer>
+
+</body>
+</html>
+
