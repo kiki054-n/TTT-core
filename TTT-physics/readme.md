@@ -8,7 +8,7 @@
 
 ## 論点整理
 
-* [`gravity_as_relation_not_force.md`](./docs/gravity_as_relation_not_force.md) — 「引力は存在しなかった」という表現を、観測される重力現象、一般相対論の幾何学的記述、「1」から始める思考へのTTT的な批判に分けて整理。前二者の確立度と後二者の仮説性を区別。
+* [`gravity_as_relation_not_force.md`](./docs/gravity_as_relation_not_force.md) — 「引力は存在しなかった」という表現と、「00→1010」から生じる回転的状態が質量に蓄積するという仮説を整理。既知の一般相対論・ジャイロ力学と、TTTの未定義・未検証部分を区別。
 
 ## 導出ドキュメント
 
