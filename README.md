@@ -24,7 +24,7 @@ TTT-core/              ← 統合ハブ（哲学・公理・全体像、この�
 | --- | --- | --- |
 | [TTT-mathematics](./TTT-mathematics/) | 物理単位を一切使わない、公理からの純粋数学的定理導出 | 7本のドキュメントで公理・定理を展開中 |
 | [TTT-physics](./TTT-physics/) | 唯一、実験と対峙するリポジトリ。理論の反証可能性を担う | 核となる構成の鎖は [TTT_CORE.md](./TTT-physics/docs/TTT_CORE.md) に、判定の全記録は [STATUS.md](./STATUS.md) にまとめ済み |
-| [TTT-society](./TTT-society/) | TTT-mathematicsの幾何学的構造からの推論的応用（実験的検証可能性なし） | 未着手（方針のみ） |
+| [TTT-society](./TTT-society/) | TTT-mathematicsの幾何学的構造からの推論的応用（実験的検証可能性なし） | 構想文書の段階（AI梯子・外殻4・労働/知財プロトコル） |
 | [TTT-consciousness](./TTT-consciousness/) | 量子力学の測定問題への幾何学的解釈（哲学的・現象学的推論） | 未着手（方針のみ） |
 
 TTT-societyとTTT-consciousnessの主張は、TTT-physicsのような実験的検証可能性を持ちません。これにより、物理領域の「科学性」が両者の推論的な主張によって汚染されないよう明確に区別しています。
@@ -73,7 +73,7 @@ TTT理論は辞書です。使い方の手順は `reading-the-wind` にありま
         └── TTT-physics（検証の場）
         │   ├── 核（S1–S7、機械検証済み）: 3, 4, 6, 7, 8, 12・比3
         │   └── 物理定数との対応（1/α, m_p/m_e, m_H 等）: 検定中／一部反証済み → STATUS.md
-        ├── TTT-society（社会的推論・未着手）
+        ├── TTT-society（社会的推論・構想段階）
         │   └── 四権構造の数学的根拠（構想）
         └── TTT-consciousness（意識的推論・未着手）
             └── 観測者の幾何学的位置（構想）
