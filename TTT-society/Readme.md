@@ -2,11 +2,34 @@
 
 **役割：** 物理基盤からの「推論的応用」として位置づける。
 
-> **重要な断り：** 本リポジトリの主張は、[TTT-mathematics](../TTT-mathematics/) の幾何学的構造からの推論的応用であり、[TTT-physics](../TTT-physics/) のような実験的検証可能性を持ちません。これは社会哲学・制度設計理論として位置づけられます。これにより、物理リポジトリの「科学性」が汚染されないよう明確に区別しています。
+> **重要な断り：** 本ディレクトリの主張は、[TTT-mathematics](../TTT-mathematics/) の幾何学的構造からの推論的応用であり、[TTT-physics](../TTT-physics/) のような実験的検証可能性を持ちません。社会哲学・制度設計理論として位置づけられます。これにより、物理リポジトリの「科学性」が汚染されないよう明確に区別しています。
+
+> **構想段階の断り：** 以下の制度・プロトコル・条約・参画候補はすべて著者による構想案です。文中に挙げた国・省庁・企業・研究機関・団体は、例示として挙げたものであり、本構想に関与・合意・承認しているものではありません。
 
 ## 現状
 
-未着手（方針のみ）。数学的な土台となる三権構造の証明不能性・四権の均衡は、純粋数学部分に限り [TTT-mathematics/godel_nash_and_judicial_structure.md](../TTT-mathematics/godel_nash_and_judicial_structure.md) にすでにあります。本リポジトリではそこから先の、社会制度への応用部分（`judicial_theory.md` 等）を扱う予定です。
+構想文書の段階（2026-10-22 時点）。AI梯子架橋戦略・外殻4（AI透明化）ロードマップ・4種労働／知財プロトコルの各設計案があります。三権構造の証明不能性・四権の均衡の純粋数学部分は [TTT-mathematics/godel_nash_and_judicial_structure.md](../TTT-mathematics/godel_nash_and_judicial_structure.md) にあり、その社会制度への応用（`judicial_theory.md` 等）は未着手です。
+
+## 目次
+
+| 場所 | 内容 |
+| :--- | :--- |
+| [TTT-core：到達点（2026-10-22）](./TTT-core：到達点（2026-10-22）.md) | 四者テトラ（誓約者A・B／神／AI）＋中心（観測者）＝ペンタ。宇宙創成・生命生成・社会構造の統合点 |
+| **[ai-ladder/](./ai-ladder/)** | グローバルサウスへの「AI梯子」架橋戦略 |
+| ├ [AI-ladder-strategy.md](./ai-ladder/AI-ladder-strategy.md) | 理論本体：梯子の構造解析、3つのAI梯子、$Y = 1/X$ と00ポテンシャルの社会写像、JICA等での実装例 |
+| └ [network-map.md](./ai-ladder/network-map.md) | 関連リポジトリ（TTT・cnt34・WCCC・reading-the-wind）とのネットワーク図と解説 |
+| **[outer-shell-4/](./outer-shell-4/)** | 外殻4：AIによる全構造の透明化 |
+| └ [3段階ロードマップ（2026〜2030）](./outer-shell-4/「AI」による全構造の透明化（外殻4の完成）.md) | ブラックボックス可視化 → 司法・契約のテトラ化 → 4+1構造の社会実装 |
+| **[labor-ip-protocol/](./labor-ip-protocol/)** | 日・印・豪テトラにおける4種労働・知財・資源の統合プロトコル |
+| ├ [「4種の労働」と「資源・知財」](./labor-ip-protocol/「4種の労働」と「資源・知財」.md) | 全体構造（創出・生産・管理・ケア × 資源 × 知財） |
+| ├ [労働評価アルゴリズム（TTT-VL Score）](./labor-ip-protocol/労働評価アルゴリズム（TTT-VL%20Score）.md) | 4種労働の定量化式 |
+| ├ [労働・知財評価アルゴリズム国際条約](./labor-ip-protocol/労働・知財評価アルゴリズム国際条約.md) | 条約〜スマートコントラクトの3層制度設計 |
+| ├ [既存金融圧力への防御メカニズム](./labor-ip-protocol/「既存金融圧力への防御メカニズム」仮想通貨構想.md) | TTT-Shield Protocol（実物資産担保型の暗号資産構想） |
+| ├ [The Blinded Truth Model](./labor-ip-protocol/The%20Blinded%20Truth%20Model.md) | TTT-Shield のゼロ知識証明（zk-SNARKs）仕様案 |
+| └ [参画候補リスティング](./labor-ip-protocol/参画候補リスティング.md) | Phase 2 実証の参画候補（例示） |
+| **[notes/](./notes/)** | 公開記事 |
+| └ [ttt-note.html](./notes/ttt-note.html) | 「この素晴らしい世界に祝福を — TTT理論が示す、回転の回復」 |
+| [archive/](./archive/) | 重複・旧版の退避場所（本文としては参照しない） |
 
 ## 予定内容
 
@@ -14,11 +37,12 @@
 * 四権構造の提案
 * 組織論・制度設計への応用
 
-## 2. 川上理論エコシステム・アーキテクチャ (System Architecture)
+## 川上理論エコシステム・アーキテクチャ (System Architecture)
 
-本構想は、単一のアイデアではなく、純粋代数・空間解析・環境モデル・予測アルゴリズムが相互に場を形成し合う**「多軸統合型ネットワーク（TTT-Ecosystem）」**として構造化されている。
+本構想は、単一のアイデアではなく、純粋代数・空間解析・環境モデル・予測アルゴリズムが相互に場を形成し合う**「多軸統合型ネットワーク（TTT-Ecosystem）」**として構造化されている。各リポジトリの詳しい解説は [ai-ladder/network-map.md](./ai-ladder/network-map.md) を参照。
 
-┌────────────────────────────────────────┐
+```
+                ┌────────────────────────────────────────┐
                 │       [ kiki054-n / TTT ]              │
                 │   双極ゼロ理論代数基盤 (Y = 1/X)        │
                 │   正四面体幾何 / Basis-Independence    │
@@ -46,9 +70,7 @@
 ・ 敗戦（ゼロ点）からのデータ化と新・社会システム設計
 ・ 人間中心AI (Hiroshima AI Process) & 共創DPI
 =======================================================
-
-
----
+```
 
 ### 🌐 各ノードの機能的・数理的役割
 
