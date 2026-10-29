@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Navel–Tetra Lattice-Occupancy Model: Nucleon, Electron and Higgs Mass Ratios from a Geometric Lattice, with an Outlook on Dark Matter and Black Holes"
+authors:
+  - family-names: Kawakami
+    given-names: Naoyuki
+    affiliation: Team Shiojiri
+    orcid: "https://orcid.org/0009-0009-2972-6511"
+version: "1.0"
+date-released: 2026-10-29
+license: CC-BY-NC-SA-4.0
+keywords:
+  - Tri-Tetra Theory
+  - lattice occupancy
+  - proton-electron mass ratio
+  - Higgs boson mass
+  - dark matter
+  - black hole
+references:
+  - type: generic
+    title: "The Theory of Bipolar Zero"
+    authors:
+      - family-names: Kawakami
+        given-names: Naoyuki
+    year: 2026
+    doi: "10.5281/zenodo.19704117"
