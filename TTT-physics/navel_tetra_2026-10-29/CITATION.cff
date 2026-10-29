@@ -7,6 +7,11 @@ authors:
     affiliation: Team Shiojiri
     orcid: "https://orcid.org/0009-0009-2972-6511"
 version: "1.0"
+doi: "10.5281/zenodo.23756226"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23756225"
+    description: "Concept DOI (all versions)"
 date-released: 2026-10-29
 license: CC-BY-NC-SA-4.0
 keywords:
