@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>かたちで見る陰陽五行と数</title>
+<meta name="description" content="陰陽、五行、3-4-5の三角形、そして 3³+4³+5³=6³。世界を読むための象徴の言葉を、図で味わう。">
+<meta property="og:title" content="かたちで見る陰陽五行と数">
+<meta property="og:description" content="陰陽、五行、3-4-5の三角形、そして 3³+4³+5³=6³ を図で味わう。">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f0e8; --surface:#fffdf8; --ink:#2c241b; --muted:#7d7266;
+  --accent:#b85c38; --cosmic:#3d4f7a; --line:rgba(44,36,27,.12);
+  --yin:#2c241b; --yang:#fffdf8;
+  --tri:#b85c38; --tetra:#3d4f7a; --penta:#5b8a4a; --empty:rgba(44,36,27,.06);
+  --radius:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1b1814; --surface:#25211b; --ink:#ece4d6; --muted:#a69b8c;
+    --accent:#e08a62; --cosmic:#8fa3d6; --line:rgba(236,228,214,.14);
+    --yin:#0f0d0b; --yang:#ece4d6;
+    --tri:#e08a62; --tetra:#8fa3d6; --penta:#8cbf7a; --empty:rgba(236,228,214,.07);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans JP","Hiragino Sans",sans-serif;background:var(--bg);color:var(--ink);line-height:1.9;font-size:clamp(1rem,.95rem + .3vw,1.1rem)}
+header{text-align:center;padding:clamp(3rem,10vw,6rem) 16px 2rem}
+.kicker{font-family:"Shippori Mincho B1",serif;letter-spacing:.3em;color:var(--muted);font-size:.85rem}
+h1{font-family:"Shippori Mincho B1",serif;font-size:clamp(2rem,1.4rem + 3vw,3.4rem);line-height:1.35;margin:.8rem 0 1rem;letter-spacing:.05em}
+.lead{max-width:34em;margin:0 auto;color:var(--muted)}
+main{max-width:760px;margin:0 auto;padding:0 16px 4rem}
+section{margin:4rem 0}
+h2{font-family:"Shippori Mincho B1",serif;font-size:clamp(1.35rem,1.1rem + 1vw,1.9rem);display:flex;gap:.8rem;align-items:baseline;border-bottom:1px solid var(--line);padding-bottom:.5rem;margin-bottom:1.2rem}
+h2 .n{color:var(--accent);font-size:1.6em;line-height:1;opacity:.75}
+p{margin-bottom:1.1rem}
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.5rem 1rem;margin:1.5rem 0;text-align:center}
+.fig svg{max-width:100%;height:auto;display:block;margin:0 auto}
+.cap{font-size:.85rem;color:var(--muted);margin-top:.8rem}
+.note{border-left:3px solid var(--accent);padding:.6rem 1rem;background:var(--surface);border-radius:0 var(--radius) var(--radius) 0;font-size:.95rem}
+.btns{display:flex;gap:.5rem;justify-content:center;margin-bottom:1rem;flex-wrap:wrap}
+.btns button{font:inherit;font-size:.9rem;padding:.35rem 1.1rem;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.btns button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#wx-text{min-height:3.8em;font-size:.95rem}
+.eq{font-family:"Shippori Mincho B1",serif;font-size:clamp(1.3rem,1rem + 1.5vw,2rem);color:var(--cosmic);letter-spacing:.08em;text-align:center;margin:1rem 0}
+.cubes{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:.4rem 1rem}
+.cubes figure{text-align:center}
+.cubes figcaption{font-size:.85rem;color:var(--muted)}
+.op{font-family:"Shippori Mincho B1",serif;font-size:1.6rem;color:var(--muted);align-self:center}
+.layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:.8rem;max-width:620px;margin:0 auto}
+.layer{display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.layer i{aspect-ratio:1;border-radius:2px;background:var(--empty);transition:background .25s}
+.layer-wrap span{display:block;font-size:.75rem;color:var(--muted);margin-top:.3rem}
+.legend{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;font-size:.85rem;margin-top:1rem}
+.legend b{display:inline-block;width:.9em;height:.9em;border-radius:2px;vertical-align:-.1em;margin-right:.3em}
+.closing{text-align:center;font-family:"Shippori Mincho B1",serif;font-size:1.15rem;line-height:2.2;margin-top:5rem}
+footer{text-align:center;color:var(--muted);font-size:.8rem;padding:2rem 16px;border-top:1px solid var(--line)}
+@media (prefers-reduced-motion: no-preference){
+  #taiji{animation:spin 40s linear infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes spin{to{transform:rotate(360deg)}}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="kicker">象徴の言葉を、かたちで読む</p>
+  <h1>かたちで見る<br>陰陽五行と数</h1>
+  <p class="lead">陰陽や五行、そして数の不思議な関係は、科学の証明ではありません。昔の人が世界を読み解くために使ってきた「意味の言葉」です。その言葉を、図にして眺めてみます。</p>
+</header>
+
+<main>
+
+<section>
+  <h2><span class="n">01</span>陰陽　二つで一つ</h2>
+  <div class="fig">
+    <svg viewBox="-110 -110 220 220" width="240" role="img" aria-label="太極図">
+      <g id="taiji">
+        <circle r="100" fill="var(--yang)" stroke="var(--ink)" stroke-width="1.5"/>
+        <path d="M0,-100 A100,100 0 0,1 0,100 A50,50 0 0,1 0,0 A50,50 0 0,0 0,-100 Z" fill="var(--yin)"/>
+        <circle cy="-50" r="13" fill="var(--yin)"/>
+        <circle cy="50" r="13" fill="var(--yang)"/>
+      </g>
+    </svg>
+    <p class="cap">黒の中に白い点、白の中に黒い点。どちらも相手を少しずつ含んでいる。</p>
+  </div>
+  <p>陰と陽は、善と悪ではありません。光があるから影が生まれ、影があるから光が分かる。片方だけでは成り立たない、一対の関係です。</p>
+  <p>図の中で、陽がいちばん大きくなったところから陰が生まれ、陰がいちばん大きくなったところから陽が生まれます。大切なのは、どちらが勝つかではなく、ゆっくり回り続けるバランスです。</p>
+</section>
+
+<section>
+  <h2><span class="n">02</span>五行　生かす輪と、抑える星</h2>
+  <div class="fig">
+    <div class="btns" role="group" aria-label="表示の切り替え">
+      <button type="button" data-mode="sheng" aria-pressed="true">相生（生かす）</button>
+      <button type="button" data-mode="ke" aria-pressed="false">相剋（抑える）</button>
+      <button type="button" data-mode="both" aria-pressed="false">両方</button>
+    </div>
+    <svg id="wx" viewBox="0 0 320 320" width="340" role="img" aria-label="五行の相生と相剋"></svg>
+    <p id="wx-text" class="cap"></p>
+  </div>
+  <p>木・火・土・金・水の五つは、外側の輪では隣を生かし、内側の星では一つ飛ばしの相手を抑えます。生かす力だけでは膨らみすぎ、抑える力だけでは枯れてしまう。二つの流れが同時に働いて、全体が保たれます。</p>
+</section>
+
+<section>
+  <h2><span class="n">03</span>3・4・5　四角が語る三角形</h2>
+  <div class="fig">
+    <svg id="pyth" role="img" aria-label="3-4-5の直角三角形と各辺の正方形"></svg>
+    <p class="cap">小さな四角を数えると、9 + 16 = 25。</p>
+  </div>
+  <p>辺の長さが3・4・5の三角形は、必ず直角になります。各辺に正方形を描くと、小さい二つの正方形のマスを合わせた数が、いちばん大きい正方形のマスの数とぴったり同じになります。</p>
+  <p>連続する三つの整数でこの関係が成り立つのは、3・4・5だけです。</p>
+</section>
+
+<section>
+  <h2><span class="n">04</span>3³ + 4³ + 5³ = 6³　立方体が語る数</h2>
+  <div class="fig">
+    <div class="cubes">
+      <figure><svg class="cube" data-n="3"></svg><figcaption>3³ = 27</figcaption></figure>
+      <span class="op">+</span>
+      <figure><svg class="cube" data-n="4"></svg><figcaption>4³ = 64</figcaption></figure>
+      <span class="op">+</span>
+      <figure><svg class="cube" data-n="5"></svg><figcaption>5³ = 125</figcaption></figure>
+      <span class="op">=</span>
+      <figure><svg class="cube" data-n="6"></svg><figcaption>6³ = 216</figcaption></figure>
+    </div>
+  </div>
+  <p class="eq">27 + 64 + 125 = 216</p>
+  <p>今度は四角を立体にします。一辺3、4、5の立方体を小さな積み木に崩して合わせると、一辺6の立方体がちょうど埋まります。三つの連続する数の立方を足して、次の数の立方になる組は、この3・4・5・6だけです。</p>
+
+  <div class="fig">
+    <div class="btns"><button type="button" id="fill-btn" aria-pressed="false">積み木を詰めてみる</button></div>
+    <div class="layers" id="layers"></div>
+    <div class="legend">
+      <span><b style="background:var(--tri)"></b>3³ の27個</span>
+      <span><b style="background:var(--tetra)"></b>4³ の64個</span>
+      <span><b style="background:var(--penta)"></b>5³ の125個</span>
+    </div>
+    <p class="cap">6×6×6 の立方体を、一段ずつ上から見た図。216マスに隙間なく収まる。</p>
+  </div>
+  <p class="note">この等式は古くから知られているものです。ここで見てほしいのは「新しい発見」ではなく、3と4と5が力を合わせて6をつくる、という数のかたちです。そこに何を読み取るかは、見る人に委ねられています。</p>
+</section>
+
+<p class="closing">二つが回り、五つがめぐり、<br>三つが合わさって、次の一つになる。<br>数を眺めることは、<br>世界の読み方を自分で選ぶことでもある。</p>
+
+</main>
+
+<footer>Tri-Tetra Theory　—　かたちで見る陰陽五行と数</footer>
+
+<script>
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={},p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e};
+
+/* 五行 */
+(()=>{
+  const svg=document.getElementById("wx");
+  const E=[{n:"火",c:"#c8553d",s:"火は灰を残し、土を生む。"},{n:"土",c:"#c9a227",s:"土の中から金属が生まれる。"},{n:"金",c:"#9a9a9a",s:"金属の表面に水滴が生まれる。"},{n:"水",c:"#3d6fa0",s:"水が木を育てる。"},{n:"木",c:"#5b8a4a",s:"木が燃えて火を生む。"}];
+  const C=160,R=115,r=30;
+  const P=E.map((_,k)=>{const a=(-90+72*k)*Math.PI/180;return[C+R*Math.cos(a),C+R*Math.sin(a)]});
+  const defs=el("defs",{},svg);
+  [["as","var(--accent)"],["ak","var(--cosmic)"]].forEach(([id,c])=>{
+    const m=el("marker",{id,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"},defs);
+    el("path",{d:"M0,0 L10,5 L0,10 z",fill:c},m);
+  });
+  const edge=(i,j,cls,color,mk)=>{
+    const[x1,y1]=P[i],[x2,y2]=P[j],dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;
+    return el("line",{x1:x1+ux*(r+4),y1:y1+uy*(r+4),x2:x2-ux*(r+6),y2:y2-uy*(r+6),stroke:color,"stroke-width":"2.2","marker-end":`url(#${mk})`,class:cls},svg);
+  };
+  const sheng=E.map((_,k)=>edge(k,(k+1)%5,"sheng","var(--accent)","as"));
+  const ke=E.map((_,k)=>edge(k,(k+2)%5,"ke","var(--cosmic)","ak"));
+  E.forEach((e,k)=>{
+    el("circle",{cx:P[k][0],cy:P[k][1],r,fill:e.c},svg);
+    const t=el("text",{x:P[k][0],y:P[k][1]+8,"text-anchor":"middle","font-size":"24","font-family":"Shippori Mincho B1,serif",fill:"#fff"},svg);t.textContent=e.n;
+  });
+  const txt=document.getElementById("wx-text");
+  const T={sheng:"相生：木→火→土→金→水→木。母が子を育てるように、隣を生かして流れていく。",
+           ke:"相剋：木→土→水→火→金→木。一つ飛ばしの相手を抑え、行き過ぎを止める。",
+           both:"二つの流れが重なって、五つは互いに支え合い、抑え合う。"};
+  const set=m=>{
+    sheng.forEach(l=>l.style.opacity=(m==="ke")?.08:1);
+    ke.forEach(l=>l.style.opacity=(m==="sheng")?.08:1);
+    txt.textContent=T[m];
+    document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));
+  };
+  document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>set(b.dataset.mode));
+  set("sheng");
+})();
+
+/* 3-4-5 */
+(()=>{
+  const svg=document.getElementById("pyth"),s=28;
+  const X=x=>(x+3.5)*s,Y=y=>(7.5-y)*s;
+  svg.setAttribute("viewBox",`0 0 ${11*s} ${12*s}`);svg.setAttribute("width",11*s);
+  const poly=(pts,f)=>el("polygon",{points:pts.map(([x,y])=>X(x)+","+Y(y)).join(" "),fill:f,stroke:"var(--ink)","stroke-width":"1.5"},svg);
+  const ln=(a,b)=>el("line",{x1:X(a[0]),y1:Y(a[1]),x2:X(b[0]),y2:Y(b[1]),stroke:"var(--ink)","stroke-opacity":".25"},svg);
+  const add=(a,b,k=1)=>[a[0]+b[0]*k,a[1]+b[1]*k];
+  const sq=(o,u,v,n,col)=>{
+    poly([o,add(o,u,n),add(add(o,u,n),v,n),add(o,v,n)],col);
+    for(let i=1;i<n;i++){ln(add(o,u,i),add(add(o,u,i),v,n));ln(add(o,v,i),add(add(o,v,i),u,n));}
+  };
+  sq([0,0],[1,0],[0,-1],4,"color-mix(in oklab,var(--tetra) 30%,transparent)");
+  sq([0,0],[0,1],[-1,0],3,"color-mix(in oklab,var(--tri) 30%,transparent)");
+  sq([4,0],[-.8,.6],[.6,.8],5,"color-mix(in oklab,var(--penta) 30%,transparent)");
+  poly([[0,0],[4,0],[0,3]],"var(--surface)");
+  const lab=(x,y,t)=>{const e=el("text",{x:X(x),y:Y(y),"text-anchor":"middle","font-size":"18","font-family":"Shippori Mincho B1,serif",fill:"var(--ink)"},svg);e.textContent=t};
+  lab(2,-2.15,"16");lab(-1.5,1.35,"9");lab(3.5,3.85,"25");
+})();
+
+/* 立方体 */
+document.querySelectorAll(".cube").forEach(svg=>{
+  const n=+svg.dataset.n,s=13,c=Math.cos(Math.PI/6);
+  const pt=(x,y,z)=>[(x-y)*c*s,((x+y)/2-z)*s];
+  const col={3:"--tri",4:"--tetra",5:"--penta",6:"--ink"}[n];
+  const minX=-n*c*s,maxX=n*c*s,minY=-n*s,maxY=n*s;
+  svg.setAttribute("viewBox",`${minX-2} ${minY-2} ${maxX-minX+4} ${maxY-minY+4}`);
+  svg.setAttribute("width",maxX-minX+4);
+  const face=(pts,o)=>el("polygon",{points:pts.map(p=>pt(...p).join(",")).join(" "),fill:`color-mix(in oklab,var(${col}) ${o}%,var(--surface))`,stroke:"var(--ink)","stroke-width":"1"},svg);
+  const ln=(a,b)=>{const[x1,y1]=pt(...a),[x2,y2]=pt(...b);el("line",{x1,y1,x2,y2,stroke:"var(--ink)","stroke-opacity":".3","stroke-width":".7"},svg)};
+  face([[0,0,n],[n,0,n],[n,n,n],[0,n,n]],n===6?12:35);
+  face([[n,0,0],[n,n,0],[n,n,n],[n,0,n]],n===6?20:55);
+  face([[0,n,0],[n,n,0],[n,n,n],[0,n,n]],n===6?28:75);
+  for(let i=1;i<n;i++){
+    ln([i,0,n],[i,n,n]);ln([0,i,n],[n,i,n]);
+    ln([n,i,0],[n,i,n]);ln([n,0,i],[n,n,i]);
+    ln([i,n,0],[i,n,n]);ln([0,n,i],[n,n,i]);
+  }
+});
+
+/* 6×6×6 の層 */
+(()=>{
+  const box=document.getElementById("layers"),cells=[];
+  for(let L=0;L<6;L++){
+    const w=document.createElement("div");w.className="layer-wrap";
+    const g=document.createElement("div");g.className="layer";
+    for(let i=0;i<36;i++){const c=document.createElement("i");g.appendChild(c);cells.push(c)}
+    const sp=document.createElement("span");sp.textContent=`${L+1}段目`;
+    w.append(g,sp);box.appendChild(w);
+  }
+  const colorOf=i=>i<27?"var(--tri)":i<91?"var(--tetra)":"var(--penta)";
+  const btn=document.getElementById("fill-btn");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let filled=false,timer;
+  btn.onclick=()=>{
+    clearInterval(timer);
+    if(filled){cells.forEach(c=>c.style.background="");filled=false;btn.textContent="積み木を詰めてみる";btn.setAttribute("aria-pressed","false");return}
+    filled=true;btn.textContent="空に戻す";btn.setAttribute("aria-pressed","true");
+    if(reduce){cells.forEach((c,i)=>c.style.background=colorOf(i));return}
+    let i=0;timer=setInterval(()=>{for(let k=0;k<4&&i<216;k++,i++)cells[i].style.background=colorOf(i);if(i>=216)clearInterval(timer)},20);
+  };
+})();
+</script>
+</body>
+</html>
