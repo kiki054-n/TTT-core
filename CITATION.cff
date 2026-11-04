@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "TTT-core: Tri-Tetra Theory (TTT) integrated hub"
+type: software
+authors:
+  - family-names: Kawakami
+    given-names: Naoyuki
+    alias: "川上 真潔"
+    orcid: "https://orcid.org/0009-0009-2972-6511"
+    affiliation: "Independent researcher, Shiojiri, Nagano, Japan"
+repository-code: "https://github.com/kiki054-n/TTT-core"
+license: CC-BY-NC-SA-4.0
+abstract: >-
+  Integrated hub of the Tri-Tetra Theory (TTT): a geometric and topological
+  framework starting from a single axiom (Axiom Z). Includes the mathematics
+  (TTT-mathematics), physics verification notes with Python check scripts
+  (TTT-physics), and speculative applications to society and consciousness
+  (TTT-society, TTT-consciousness).
+keywords:
+  - Tri-Tetra Theory
+  - TTT
+  - geometry
+  - topology
+  - tetrahedron
+  - fine-structure constant
+  - cosmological constant
