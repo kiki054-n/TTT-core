@@ -1,5 +1,12 @@
 # **godel_nash_and_judicial_structure.md**
 
+<!-- TTT-STATUS v1 -->
+> **状態**: F（反証済み） — この文書の主張は判定を受けている
+> **判定**: 証明の部分は成立しない。(1) ゲーデルの不完全性定理は算術を含む形式体系についての定理で、三写像の循環依存だけでは「ゲーデルの自己参照と同型」と言えない。(2) ナッシュの存在定理は参加者が何人の有限ゲームでも均衡を保証するため、3 と 4 を区別できない（本文の「三写像系では固定点が存在しない」は定理の帰結ではない）。主張「三者だけでは閉じず、外から囲う4番目で閉じる」自体は仮説として残り、その根拠は JA0XUY-BPFF toward-a-first-principle/00-prologue.md §5（コンドルセの循環・三体問題・Walter 2002 の内戦データ）に置く。
+> **参照**: `STATUS.md` / [JA0XUY-BPFF toward-a-first-principle](https://github.com/kiki054-n/JA0XUY-BPFF/blob/main/toward-a-first-principle/00-prologue.md)
+> 本文は当時のまま。PROOF_STATUS.md §27「後から黙って直さない」による。（2026-11-09）
+
+
 ## **純粋数学版：三権構造の証明不能性と四権均衡の必然性**
 
 # **1. 三権構造の「証明不能性」**

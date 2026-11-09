@@ -14,6 +14,11 @@
 * [`fractal_dimension_and_6d_equation.md`](./fractal_dimension_and_6d_equation.md) → 次元論（位相次元・計量次元・自己相似次元の統合）
 * [`godel_nash_and_judicial_structure.md`](./godel_nash_and_judicial_structure.md) → 純粋数学部分のみ（三権構造の証明不能性・四権の均衡）。社会的応用部分は[TTT-society](../TTT-society/)を参照
 
+## 関連する外部の記録（2026-11-09）
+
+* **公理6（自己相似条件）を生成の規則から導く試み** → [JA0XUY-BPFF `toward-a-first-principle/03-derivation.md`](https://github.com/kiki054-n/JA0XUY-BPFF/blob/main/toward-a-first-principle/03-derivation.md)。0 から同時に2本の線が入り、「生まれた要素は半回転一段待つ」とすると $T_{n+1}=T_n+T_{n-1}$ が出て、比は $x = 1 + 1/x$ の解 $\varphi$ に収束する（計算で確定）。「半回転待つ」を符号の交互（$XYZ=-1 \to XYZ\pi=1$）から導くのは未決。導ければ公理6は定理になる。`golden_ratio_from_6d_equation.md`・`fibonacci_and_6d_equation.md`（いずれも C）の本文は変えていない
+* **`godel_nash_and_judicial_structure.md` を F に判定** → 証明の適用範囲の問題。冒頭バナーと [`STATUS.md`](../STATUS.md) を参照
+
 ## 今後追加予定
 
 用語統一の辞書（glossary）、命題ごとにどのリポジトリで証明されるかの全体マップは未着手です。
