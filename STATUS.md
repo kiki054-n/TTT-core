@@ -56,7 +56,7 @@
 
 ---
 
-## F — 反証済み（9件）
+## F — 反証済み（10件）
 
 | ファイル | 判定の要点 |
 |---|---|
@@ -67,6 +67,7 @@
 | `TTT-mathematics/golden_ratio_proofs.md` | §1 の根の取り違え（$x^2+x-1=0$ の正の解は $1/\varphi$）。2026-09-01 指摘、未修正 |
 | `TTT-mathematics/geometry_and_solution_space.md` | 「$\Sigma v=0$ を満たす有限点系は5種」は任意の中心対称点系が満たす |
 | `TTT-physics/geometry_and_solution_space_1.md` | 上の重複 |
+| `TTT-mathematics/godel_nash_and_judicial_structure.md` | ゲーデルは算術を含む形式体系の定理で、三写像の循環依存だけでは適用できない。ナッシュの存在定理は何人の有限ゲームでも均衡を保証し、3 と 4 を区別しない。主張そのものは仮説として残り、根拠は JA0XUY-BPFF `toward-a-first-principle/00-prologue.md` §5 へ（2026-11-09） |
 | `.../docs/Unified Geometric Table .md` | 17粒子中7つが 55〜99% 外れる。8節中6節は既存文献の要約 |
 
 ---
@@ -81,9 +82,9 @@
 
 ---
 
-## U — 未判定（14件）
+## U — 未判定（13件）
 
-`README.md`（**要更新**：1836 と 137.03… を看板にしている） ／ `TTT-physics/readme.md` ／ `TTT-physics.md` ／ `TTT‑physics v3 .md` ／ `POLYHEDRAL_TRANSITION_6D.md` ／ `Polyhedral Transition and Hidden 6D State.md` ／ `Polyhedral Transition — Strict Numerical Definition.md` ／ `TTT_6D_Observation_Matrix_Analysis.md` ／ `TTT_Alpha_Fine_Structure_Constant_Convergence.md` ／ `TTT_Polyhedra_Transition_Analysis.md` ／ `TTT-paper/fin/Geometric-Topological Derivation…md` ／ `godel_nash_and_judicial_structure.md`（＋壊れた重複） ／ `.../docs/02_standard_model_17_particles.md`
+`README.md`（**要更新**：1836 と 137.03… を看板にしている） ／ `TTT-physics/readme.md` ／ `TTT-physics.md` ／ `TTT‑physics v3 .md` ／ `POLYHEDRAL_TRANSITION_6D.md` ／ `Polyhedral Transition and Hidden 6D State.md` ／ `Polyhedral Transition — Strict Numerical Definition.md` ／ `TTT_6D_Observation_Matrix_Analysis.md` ／ `TTT_Alpha_Fine_Structure_Constant_Convergence.md` ／ `TTT_Polyhedra_Transition_Analysis.md` ／ `TTT-paper/fin/Geometric-Topological Derivation…md` ／ `godel_nash_and_judicial_structure.md .md`（壊れた重複。本体は F） ／ `.../docs/02_standard_model_17_particles.md`
 
 ---
 

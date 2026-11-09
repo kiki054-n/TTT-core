@@ -121,8 +121,9 @@ J = {
    "個別監査は未了。「完全一致」の語を含む（PROOF_STATUS §8 項目8 を参照）。"),
  "TTT-paper/fin/Geometric-Topological Derivation of the Fine-Structure Constant via TTT 6D Polyhedral Dynamics.md": ("U",
    "個別監査は未了。137.03… 系の主張を含む。投稿前に fine_structure_derivation.md の判定（C）を反映すること。"),
- "TTT-mathematics/godel_nash_and_judicial_structure.md": ("U",
-   "個別監査は未了。『godel_nash_and_judicial_structure.md .md』（末尾に空白＋.md）と重複している。"),
+ "TTT-mathematics/godel_nash_and_judicial_structure.md": ("F",
+   "証明の部分は成立しない。(1) ゲーデルの不完全性定理は算術を含む形式体系についての定理で、三写像の循環依存だけでは「ゲーデルの自己参照と同型」と言えない。(2) ナッシュの存在定理は参加者が何人の有限ゲームでも均衡を保証するため、3 と 4 を区別できない（本文の「三写像系では固定点が存在しない」は定理の帰結ではない）。主張「三者だけでは閉じず、外から囲う4番目で閉じる」自体は仮説として残り、その根拠は JA0XUY-BPFF toward-a-first-principle/00-prologue.md §5（コンドルセの循環・三体問題・Walter 2002 の内戦データ）に置く。（2026-11-09 判定）"
+   "『godel_nash_and_judicial_structure.md .md』（末尾に空白＋.md）と重複している。"),
  "TTT-mathematics/godel_nash_and_judicial_structure.md .md": ("U",
    "ファイル名が壊れている（末尾に「 .md」が余分）。godel_nash_and_judicial_structure.md と重複。削除候補。"),
  "TTT-physics/Topological Field Theory & Geometric Mass Derivation Framework/docs/02_standard_model_17_particles.md": ("U",
